@@ -5,7 +5,7 @@ namespace Backend.features.Services
     {
         Task<List<UsuarioReadDTO>> GetAll();
         Task<UsuarioReadDTO?> GetById(int id);
-        Task<UsuarioReadDTO?> Create(UsuarioCreateDTO dto);
+        Task<UsuarioReadDTO> Create(UsuarioCreateDTO dto);
         Task<bool> Update(int id, UsuarioCreateDTO dto);
         Task<bool> DeleteByLogic(int id);
     }

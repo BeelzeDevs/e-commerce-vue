@@ -8,6 +8,7 @@ namespace Backend.features.DTOs
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
+        public bool Estado { get; set; }
 
     }
 }

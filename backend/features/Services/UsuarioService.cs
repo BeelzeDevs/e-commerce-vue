@@ -55,7 +55,7 @@ namespace Backend.features.Services
             };
         }
 
-        public async Task<UsuarioReadDTO?> Create(UsuarioCreateDTO dto)
+        public async Task<UsuarioReadDTO> Create(UsuarioCreateDTO dto)
         {
             var usuario = new Models.Usuario
             {
@@ -70,7 +70,6 @@ namespace Backend.features.Services
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
 
-            if (usuario is null) return null;
             return await GetById(usuario.Id) ?? throw new Exception("Error al crear Usuario");
         }
         public async Task<bool> Update(int id, UsuarioCreateDTO dto)
@@ -83,6 +82,7 @@ namespace Backend.features.Services
             usuario.RolId = 2; // Cliente
             usuario.Email = dto.Email;
             usuario.PasswordHash = dto.PasswordHash;
+            usuario.Estado = dto.Estado;
 
             await _context.SaveChangesAsync();
             return true;

@@ -72,7 +72,6 @@ namespace Backend.features.Services
                 Imagen = dto.Imagen,
                 Estado = dto.Estado
             };
-            if (prod is null) return null;
 
             var catExiste = await _context.Categorias.FirstOrDefaultAsync(c => c.Id == dto.Categoria.Id);
             if (catExiste is null) return null;

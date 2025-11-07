@@ -36,11 +36,11 @@ namespace Backend.features.Services
             };
         }
 
-        public async Task<CategoriaReadDTO?> Create(CategoriaCreateDTO dto)
+        public async Task<CategoriaReadDTO> Create(CategoriaCreateDTO dto)
         {
             var cat = new Models.Categoria
             {
-                Nombre = dto.nombre
+                Nombre = dto.Nombre
             };
 
 
@@ -55,7 +55,7 @@ namespace Backend.features.Services
             var cat = await _context.Categorias.FindAsync(id);
 
             if (cat is null) return false;
-            cat.Nombre = dto.nombre;
+            cat.Nombre = dto.Nombre;
 
             await _context.SaveChangesAsync();
             return true;

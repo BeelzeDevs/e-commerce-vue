@@ -45,23 +45,23 @@ create table productos(
 	estado bool default true
 );
 
-insert into productos(categoria_id, nombre, marca, precio,stock, imagen)
+insert into productos(categoria_id, nombre, marca, descripcion, precio,stock, imagen)
 values
-(1,'Manteca','Tasserenisima', 29999.99,25,'img/manteca-taserenisima.webp'),
-(2,'Detergente lavavajillas', 'Ala', 39999.50,10,'img/ala-detergente.webp'),
-(2,'Detergente ropa','Ala', 35999.90,7,'img/ala-detergenteropa.webp'),
-(2,'Lavandina','Ayudin', 29999.99,25,'img/ayudin-lavandina.webp'),
-(1,'Pan blanco', 'Bimbo', 45999.50,10,'img/bimbo-panblanco.webp'),
-(1,'Pan integral','Bimbo', 35999.90,7,'img/bimbo-panintegral.webp'),
-(3,'Whisky','Blue label', 29999.99,25,'img/bluelabel.webp'),
-(2,'Detergente', 'Cif', 30999.50,10,'img/cif-detergente.webp'),
-(3,'Gaseosa 1.5l','Coca Cola', 35999.90,7,'img/cocacola-1-5lit.webp'),
-(3,'Gaseosa 2.25l','Coca Cola', 35999.90,7,'img/cocacola-2-25l.webp'),
-(1,'Fideos','Don vicente', 35999.90,7,'img/donvicente-fideos.webp'),
-(1,'Palitos surimi','Kanikama', 35999.90,7,'img/kanikama-palitossurimi.webp'),
-(1,'Lomitos de atún','LaAnonima', 35999.90,7,'img/laanonima-lomitosdeatun.webp'),
-(1,'Hamburguesas','Union ganadera', 35999.90,7,'img/unionganadera-hamburguesas.webp'),
-(3,'Whisky','Jack Daniels', 35999.90,7,'img/whisky-jack.webp');
+(1,'Manteca','Tasserenisima','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 29999.99,25,'img/manteca-taserenisima.webp'),
+(2,'Detergente lavavajillas', 'Ala','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 39999.50,10,'img/ala-detergente.webp'),
+(2,'Detergente ropa','Ala','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/ala-detergenteropa.webp'),
+(2,'Lavandina','Ayudin','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 29999.99,25,'img/ayudin-lavandina.webp'),
+(1,'Pan blanco', 'Bimbo','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 45999.50,10,'img/bimbo-panblanco.webp'),
+(1,'Pan integral','Bimbo','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/bimbo-panintegral.webp'),
+(3,'Whisky','Blue label','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 29999.99,25,'img/bluelabel.webp'),
+(2,'Detergente', 'Cif','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 30999.50,10,'img/cif-detergente.webp'),
+(3,'Gaseosa 1.5l','Coca Cola','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/cocacola-1-5lit.webp'),
+(3,'Gaseosa 2.25l','Coca Cola','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/cocacola-2-25l.webp'),
+(1,'Fideos','Don vicente','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/donvicente-fideos.webp'),
+(1,'Palitos surimi','Kanikama','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/kanikama-palitossurimi.webp'),
+(1,'Lomitos de atún','LaAnonima','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/laanonima-lomitosdeatun.webp'),
+(1,'Hamburguesas','Union ganadera','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/unionganadera-hamburguesas.webp'),
+(3,'Whisky','Jack Daniels','Se podría leer una descripción detallada de un producto que todos deberían comprar, al menos una vez en la vida.', 35999.90,7,'img/whisky-jack.webp');
 
 /* Ordenes */
 create table ordenes(

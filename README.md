@@ -1,3 +1,5 @@
+# E-COMMERCE ADMINISTRATIVE SYSTEM
+
 # Backend: .NET 8 API con Entity Framework y PostgreSQL
 # Frontend: Vue 3 + TypeScript + Tailwind
 
@@ -35,7 +37,7 @@
 - Statistics (graphs)
 
 # Backend
-- CRUD Products, Categories, Users, Orders
+- CRUD Products, Categories, Users, Orders, OrderDetails(Products)
 - JWT Authentication
 - Rol: Client, Admin
 - Data transfer objects
