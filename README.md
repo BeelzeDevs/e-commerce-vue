@@ -17,7 +17,9 @@
 ## - Tailwind CSS
 ## - Autoprefixer (compability with navs) y Postcss (execute css plugins)
 
-
+# Login
+## Administrador => Email: ignacio@admin.com , Password:admin123
+## Cliente => Email: cliente@cliente.com , Password:cliente123
 
 # Home Modules : User
 - Featured products

@@ -1,6 +1,7 @@
 using Backend.Features.Auth.Services;
 using Backend.Features.Auth.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Backend.Features.Results;
 
 namespace Backend.Features.Auth.Controllers
 {
@@ -20,7 +21,7 @@ namespace Backend.Features.Auth.Controllers
             var authResult = await _service.LoginAsync(dto);
             return authResult is not null
             ? Ok(authResult)
-            : Unauthorized(new { Results = new Features.Results.ResultError { errorMessage = "Email o contraseña incorrectos." } });
+            : Unauthorized(ApiResponse<ResultError>.Error("Email o contraseña incorrectos."));
             
         }
     }
