@@ -1,9 +1,9 @@
-namespace Backend.features.DTOs
+namespace Backend.Features.DTOs
 {
     public class ProductoCreateDTO
     {
         public string Nombre { get; set; } = string.Empty;
-        public CategoriaReadDTO Categoria { get; set; } = null!;
+        public int CategoriaId { get; set; }
         public string Marca { get; set; } = string.Empty;
         public string Descripcion { get; set; } = string.Empty;
         public decimal Precio { get; set; }

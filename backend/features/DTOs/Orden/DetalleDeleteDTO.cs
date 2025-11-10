@@ -1,4 +1,4 @@
-namespace Backend.features.DTOs
+namespace Backend.Features.DTOs
 {
     public class DetalleDeleteDTO
     {

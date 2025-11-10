@@ -1,17 +1,34 @@
+using System.Security.Claims;
 using Backend.Data;
-using Backend.features.DTOs;
-using Backend.features.Models;
+using Backend.Features.DTOs;
+using Backend.Features.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.features.Services
+namespace Backend.Features.Services
 {
+    public enum RolesEnum {Admin = 1 , Cliente = 2}
     public class UsuarioService : IUsuarioService
     {
         private readonly EcommerceDbContext _context;
-        public UsuarioService(EcommerceDbContext context)
+        private readonly IHttpContextAccessor _httpAccessor;
+        public UsuarioService(EcommerceDbContext context, IHttpContextAccessor httpAccessor)
         {
             _context = context;
+            _httpAccessor = httpAccessor;
         }
+        private int GetClaimUsuarioId()
+        {
+            var claim = _httpAccessor.HttpContext?.User.FindFirst("UsuarioId")?.Value;
+            return int.TryParse(claim, out var id) ? id : 0;
+        }
+        private string? GetRol()
+        {
+            var claim = _httpAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role)?.Value;
+            return claim;
+        }
+        private bool EsAdmin() => GetRol() == "Administrador";
+        private bool EsMismoUsuario(int UsuarioId) => UsuarioId == GetClaimUsuarioId();
+
         public async Task<List<UsuarioReadDTO>> GetAll()
         {
             return await _context.Usuarios.Include(u => u.Rol)
@@ -26,19 +43,20 @@ namespace Backend.features.Services
                     },
                     Nombre = u.Nombre,
                     Email = u.Email,
-                    PasswordHash = u.PasswordHash,
                     FechaRegistro = u.FechaRegistro,
                     Estado = u.Estado
                 }
             ).ToListAsync();
         }
 
-        public async Task<UsuarioReadDTO?> GetById(int id)
+        public async Task<UsuarioReadDTO> GetById(int id)
         {
+            if (!EsMismoUsuario(id) && !EsAdmin()) throw new UnauthorizedAccessException("Acceso No Autorizado");
+
             var usuario = await _context.Usuarios.Include(u => u.Rol)
             .FirstOrDefaultAsync(u => u.Id == id);
 
-            if (usuario is null) return null;
+            if (usuario is null) throw new Exception($"Usuario no encontrado con el Usuario ID : {id}");
             return new UsuarioReadDTO
             {
                 Id = usuario.Id,
@@ -49,7 +67,6 @@ namespace Backend.features.Services
                 },
                 Nombre = usuario.Nombre,
                 Email = usuario.Email,
-                PasswordHash = usuario.PasswordHash,
                 FechaRegistro = usuario.FechaRegistro,
                 Estado = usuario.Estado
             };
@@ -57,12 +74,15 @@ namespace Backend.features.Services
 
         public async Task<UsuarioReadDTO> Create(UsuarioCreateDTO dto)
         {
+
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash);
+
             var usuario = new Models.Usuario
             {
-                RolId = 2, // Cliente
+                RolId = (int)RolesEnum.Cliente,
                 Nombre = dto.Nombre,
                 Email = dto.Email,
-                PasswordHash = dto.PasswordHash,
+                PasswordHash = hashedPassword,
                 FechaRegistro = DateTime.Now,
                 Estado = true
             };
@@ -72,16 +92,22 @@ namespace Backend.features.Services
 
             return await GetById(usuario.Id) ?? throw new Exception("Error al crear Usuario");
         }
-        public async Task<bool> Update(int id, UsuarioCreateDTO dto)
+        
+        public async Task<bool> Update(int id, UsuarioUpdateDTO dto)
         {
+
+            if (!EsMismoUsuario(id) && !EsAdmin()) throw new UnauthorizedAccessException("Acceso No Autorizado");
+            
             var usuario = await _context.Usuarios.Include(u => u.Rol)
             .FirstOrDefaultAsync(u => u.Id == id);
-            if (usuario is null) return false;
+            if (usuario is null) throw new Exception($"Usuario no encontrado con el Usuario ID : {id}");
+
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash);
 
             usuario.Nombre = dto.Nombre;
-            usuario.RolId = 2; // Cliente
+            usuario.RolId = (int)RolesEnum.Cliente;
             usuario.Email = dto.Email;
-            usuario.PasswordHash = dto.PasswordHash;
+            usuario.PasswordHash = hashedPassword;
             usuario.Estado = dto.Estado;
 
             await _context.SaveChangesAsync();

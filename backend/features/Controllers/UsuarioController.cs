@@ -1,10 +1,11 @@
-using Backend.features.DTOs;
-using Backend.features.Models;
-using Backend.features.Services;
+using Backend.Features.DTOs;
+using Backend.Features.Models;
+using Backend.Features.Results;
+using Backend.Features.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.features.Controllers
+namespace Backend.Features.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -17,56 +18,46 @@ namespace Backend.features.Controllers
         }
 
 
-        [Authorize(Policy ="SoloAdmin")]
+        [Authorize(Policy = "SoloAdmin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var usuarios = await _service.GetAll();
-            return usuarios is not null
-            ? Ok(new { Results = usuarios })
-            : NotFound(new
-            {
-                Results = new features.Results.ResultError { errorMessage = "No se encontraron usuarios" }
-            });
+            return Ok(new ApiResponse<List<UsuarioReadDTO>>(usuarios));
         }
 
-        [Authorize(Policy ="SoloAdmin")]
+
+        [Authorize]
         [HttpGet("{UsuarioId}")]
         public async Task<IActionResult> GetById(int UsuarioId)
         {
             var usuario = await _service.GetById(UsuarioId);
-            return usuario is not null 
-            ? Ok(new { Results = usuario }) 
-            : NotFound(new { Results = new features.Results.ResultError { errorMessage = $"No se encontró usuario con el Usuario ID : {UsuarioId}" } 
-            });
+            return Ok(new ApiResponse<UsuarioReadDTO>(usuario));
         }
         
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UsuarioCreateDTO dto)
         {
             var UsuarioCreado = await _service.Create(dto);
-            return CreatedAtAction(nameof(GetById), new { Id = UsuarioCreado.Id }, UsuarioCreado);
+            return CreatedAtAction(nameof(GetById), new { UsuarioId = UsuarioCreado.Id }, new {Results = UsuarioCreado });
         }
 
+
+        [Authorize]
         [HttpPut("{UsuarioId}")]
-        public async Task<IActionResult> Update(int UsuarioId, UsuarioCreateDTO dto)
+        public async Task<IActionResult> Update(int UsuarioId, UsuarioUpdateDTO dto)
         {
             var ExitoAlModif = await _service.Update(UsuarioId, dto);
-            return ExitoAlModif 
-            ? Ok(new { Results = new features.Results.ResultSuccess {successMessage = "Usuario modificado con éxito"} }) 
-            : NotFound( new { Results = new features.Results.ResultError { errorMessage = $"No se pudo actualizar el usuario a modificar, datos incorrectos UsuarioId = {UsuarioId} , \n UsuarioCreateDTO = {dto}"} 
-            });
+            return Ok(ApiResponse<ResultSuccess>.Success("Usuario modificado con éxito"));
         }
 
+        
         [Authorize(Policy ="SoloAdmin")]
         [HttpDelete("{UsuarioId}")]
         public async Task<IActionResult> DeleteByLogic(int UsuarioId)
         {
             var BajaExitosa = await _service.DeleteByLogic(UsuarioId);
-            return BajaExitosa 
-            ? Ok( new { Results = new features.Results.ResultSuccess { successMessage = "Eliminado con éxito" }  }) 
-            : NotFound( new { Results = new features.Results.ResultError { errorMessage = $"No se encontró el usuario, UsuarioId = {UsuarioId}" } 
-            });
+            return Ok(ApiResponse<ResultSuccess>.Success("Eliminado con éxito"));
         }
 
     }

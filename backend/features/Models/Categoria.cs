@@ -1,6 +1,6 @@
-using Backend.features.Models;
+using Backend.Features.Models;
 
-namespace Backend.features.Models
+namespace Backend.Features.Models
 {
     public class Categoria
     {

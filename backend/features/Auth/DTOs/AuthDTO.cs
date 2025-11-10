@@ -1,4 +1,4 @@
-namespace Backend.features.Auth.DTOs
+namespace Backend.Features.Auth.DTOs
 {
     public class AuthResponseDTO
     {

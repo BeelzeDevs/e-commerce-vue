@@ -1,6 +1,6 @@
-using Backend.features.DTOs;
+using Backend.Features.DTOs;
 
-namespace Backend.features.DTOs
+namespace Backend.Features.DTOs
 {
     public class DetalleReadDTO
     {

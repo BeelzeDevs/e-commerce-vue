@@ -1,15 +1,15 @@
-using Backend.features.DTOs;
+using Backend.Features.DTOs;
 
-namespace Backend.features.Services
+namespace Backend.Features.Services
 {
     public interface IOrdenService
     {
         // Ordenes
         Task<List<OrdenReadDTO>> GetAll();
-        Task<OrdenReadDTO?> GetById(int id);
+        Task<OrdenReadDTO> GetByOrdenId(int id);
         Task<List<OrdenReadDTO>> GetOrdenesByUsarioId(int UsuarioId);
-        Task<OrdenReadDTO?> Create(OrdenCreateDTO dto);
-        Task<bool> Update(int id, OrdenCreateDTO dto);
+        Task<OrdenReadDTO> Create(OrdenCreateDTO dto);
+        Task<bool> Update(int id, OrdenUpdateDTO dto);
         Task<bool> Delete(int id);
         // Detalles
         Task<List<DetalleReadDTO>> GetDetallesByOrdenId(int OrdenId);

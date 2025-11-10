@@ -1,11 +1,11 @@
 
-using Backend.features.DTOs;
-using Backend.features.Models;
-using Backend.features.Services;
+using Backend.Features.DTOs;
+using Backend.Features.Results;
+using Backend.Features.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.features.Controllers
+namespace Backend.Features.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -16,26 +16,20 @@ namespace Backend.features.Controllers
         {
             _service = service;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var categorias = await _service.GetAll();
-            
-            return categorias is not null 
-            ? Ok(new { Results = categorias })
-            : NotFound(new { Results =  new features.Results.ResultError { errorMessage = "No se encontraron categorias" }
-            });
+
+            return Ok(new ApiResponse<List<CategoriaReadDTO>>(categorias));
         }
-        [HttpGet("/{CatId}")]
+        
+        [HttpGet("{CatId}")]
         public async Task<IActionResult> GetById(int CatId)
         {
             var categoria = await _service.GetById(CatId);
-            return categoria is not null
-            ? Ok(new { Results = categoria })
-            : NotFound(new
-            {
-                Results = new features.Results.ResultError { errorMessage = "No se encontró la categoria" }
-            });
+            return Ok(new ApiResponse<CategoriaReadDTO>(categoria));
         }
 
         [Authorize(Policy = "SoloAdmin")]
@@ -43,7 +37,7 @@ namespace Backend.features.Controllers
         public async Task<IActionResult> Create([FromBody] CategoriaCreateDTO dto)
         {
             var cat = await _service.Create(dto);
-            return CreatedAtAction(nameof(GetById), new { Id = cat.Id }, cat);
+            return CreatedAtAction(nameof(GetById), new { CatId = cat.Id }, new {Results = cat} );
         }
         
         [Authorize(Policy ="SoloAdmin")]
@@ -51,9 +45,7 @@ namespace Backend.features.Controllers
         public async Task<IActionResult> Update(int CatId, [FromBody] CategoriaCreateDTO dto)
         {
             var exito = await _service.Update(CatId, dto);
-            return exito 
-            ? Ok(new { Results = new features.Results.ResultSuccess{ successMessage = "Categoria actualizada con éxito"} }) 
-            : NotFound( new { Results = new features.Results.ResultError { errorMessage = $"No se encontro la Categoria, datos incorrectos ID Categoria : {CatId}"} });
+            return Ok(ApiResponse<ResultSuccess>.Success("Categoria actualizada con éxito"));
         }
 
     }

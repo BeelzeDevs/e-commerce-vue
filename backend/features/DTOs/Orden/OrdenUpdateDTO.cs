@@ -1,12 +1,9 @@
 namespace Backend.Features.DTOs
 {
-    public class OrdenReadDTO
+    public class OrdenUpdateDTO
     {
-        
-        public int Id { get; set; }
         public int UsuarioId { get; set; }
-        public DateTime Fecha { get; set; }
+        public DateTime Fecha { get; set; } 
         public decimal Total { get; set; }
-
     }
 }

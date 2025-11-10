@@ -1,8 +1,8 @@
 using Backend.Data;
-using Backend.features.DTOs;
-using Backend.features.Services;
+using Backend.Features.DTOs;
+using Backend.Features.Services;
 using Microsoft.EntityFrameworkCore;
-namespace Backend.features.Services
+namespace Backend.Features.Services
 {
     public class CategoriaService : ICategoriaService
     {
@@ -15,7 +15,9 @@ namespace Backend.features.Services
 
         public async Task<List<CategoriaReadDTO>> GetAll()
         {
-            return await _context.Categorias.Select(
+            return await _context.Categorias
+                .AsNoTracking() // No se van a modificar por lo que NoTracking mejora el rendimiento
+                .Select(
                 cat => new CategoriaReadDTO
                 {
                     Id = cat.Id,
@@ -23,11 +25,11 @@ namespace Backend.features.Services
                 }
             ).ToListAsync();
         }
-        public async Task<CategoriaReadDTO?> GetById(int id)
+        public async Task<CategoriaReadDTO> GetById(int id)
         {
             var cat = await _context.Categorias.FirstOrDefaultAsync(cat => cat.Id == id);
 
-            if (cat is null) return null;
+            if (cat is null) throw new Exception($"Categoria no encontrada con el Categoria ID : {id}");
 
             return new CategoriaReadDTO
             {
@@ -42,19 +44,23 @@ namespace Backend.features.Services
             {
                 Nombre = dto.Nombre
             };
-
+            if (cat is null) throw new Exception($"No se pudo crear la categoria, DTO : {dto}");
 
             _context.Categorias.Add(cat);
             await _context.SaveChangesAsync();
 
-            return await GetById(cat.Id) ?? throw new Exception("Error al crear Categoria");
+            return new CategoriaReadDTO
+                {
+                    Id = cat.Id,
+                    Nombre = cat.Nombre
+                };
         }
 
         public async Task<bool> Update(int id, CategoriaCreateDTO dto)
         {
             var cat = await _context.Categorias.FindAsync(id);
 
-            if (cat is null) return false;
+            if (cat is null) throw new Exception($"No se pudo encontrar la categoria a actualizar, con el Categoria ID: {id}");
             cat.Nombre = dto.Nombre;
 
             await _context.SaveChangesAsync();

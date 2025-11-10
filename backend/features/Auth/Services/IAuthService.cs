@@ -1,6 +1,6 @@
-using Backend.features.Auth.DTOs;
+using Backend.Features.Auth.DTOs;
 
-namespace Backend.Auth.Services
+namespace Backend.Features.Auth.Services
 {
     public interface IAuthService
     {

@@ -1,5 +1,5 @@
-using Backend.features.Models;
-namespace Backend.features.Models
+using Backend.Features.Models;
+namespace Backend.Features.Models
 {
     public class Producto
     {

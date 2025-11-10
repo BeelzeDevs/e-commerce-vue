@@ -1,11 +1,11 @@
 using Backend.Data;
-using Backend.features.DTOs;
-using Backend.features.Models;
-using Backend.features.Services;
+using Backend.Features.DTOs;
+using Backend.Features.Models;
+using Backend.Features.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Backend.features.Services
+namespace Backend.Features.Services
 {
     public class ProductoService : IProductoService
     {
@@ -35,13 +35,33 @@ namespace Backend.features.Services
                 Estado = p.Estado
             }).ToListAsync();
         }
-        public async Task<ProductoReadDTO?> GetById(int id)
+        public async Task<List<ProductoReadDTO>> GetAllActives()
+        {
+            return await _context.Productos.Include(p => p.Categoria).Where(p=> p.Estado == true)
+            .Select(p => new ProductoReadDTO
+            {
+                Id = p.Id,
+                Categoria = new CategoriaReadDTO
+                {
+                    Id = p.Categoria.Id,
+                    Nombre = p.Categoria.Nombre
+                },
+                Nombre = p.Nombre,
+                Marca = p.Marca,
+                Descripcion = p.Descripcion,
+                Precio = p.Precio,
+                Stock = p.Stock,
+                Imagen = p.Imagen,
+                Estado = p.Estado
+            }).ToListAsync();
+        }
+        public async Task<ProductoReadDTO> GetById(int id)
         {
             var prod = await _context.Productos
             .Include(p => p.Categoria)
             .FirstOrDefaultAsync(p => p.Id == id);
 
-            if (prod is null) return null;
+            if (prod is null) throw new Exception($"No se encontró producto con el Producto ID: {id}");
             return new ProductoReadDTO
             {
                 Id = prod.Id,
@@ -59,12 +79,15 @@ namespace Backend.features.Services
                 Estado = prod.Estado
             };
         }
-        public async Task<ProductoReadDTO?> Create(ProductoCreateDTO dto)
+        public async Task<ProductoReadDTO> Create(ProductoCreateDTO dto)
         {
-            var prod = new Backend.features.Models.Producto
+            var catExiste = await _context.Categorias.FindAsync(dto.CategoriaId);
+            if (catExiste is null) throw new Exception($"La categoria del producto a crear no existe, Categoria ID : {dto.CategoriaId}");
+
+            var prod = new Features.Models.Producto
             {
                 Nombre = dto.Nombre,
-                CategoriaId = dto.Categoria.Id,
+                CategoriaId = dto.CategoriaId,
                 Marca = dto.Marca,
                 Descripcion = dto.Descripcion,
                 Precio = dto.Precio,
@@ -73,22 +96,19 @@ namespace Backend.features.Services
                 Estado = dto.Estado
             };
 
-            var catExiste = await _context.Categorias.FirstOrDefaultAsync(c => c.Id == dto.Categoria.Id);
-            if (catExiste is null) return null;
-
             _context.Productos.Add(prod);
             await _context.SaveChangesAsync();
-            return await GetById(prod.Id) ?? throw new Exception("Error al crear un producto");
+            return await GetById(prod.Id) ?? throw new Exception($"Error al crear un producto, DTO {dto}");
 
         }
-        public async Task<bool> Update(int id, ProductoCreateDTO dto)
+        public async Task<bool> Update(int id, ProductoUpdateDTO dto)
         {
             var prod = await _context.Productos.Include(p => p.Categoria)
             .FirstOrDefaultAsync(p => p.Id == id);
             if (prod is null) return false;
 
             prod.Nombre = dto.Nombre;
-            prod.CategoriaId = dto.Categoria.Id;
+            prod.CategoriaId = dto.CategoriaId;
             prod.Marca = dto.Marca;
             prod.Descripcion = dto.Descripcion;
             prod.Precio = dto.Precio;
