@@ -19,16 +19,16 @@ namespace Backend.Features.Auth.Services
             _config = config;
         }
 
-        public async Task<AuthResponseDTO?> LoginAsync(UsuarioLoginDTO dto)
+        public async Task<AuthResponseDTO<LoginRespDTO>> LoginAsync(UsuarioLoginDTO dto)
         {
             var usuario = await _context.Usuarios
                 .Include(u => u.Rol)
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-            if (usuario is null) return null;
+            if (usuario is null) return AuthResponseDTO<LoginRespDTO>.Fail("❌ Datos incorrectos");
 
             var valid = BCrypt.Net.BCrypt.Verify(dto.Password, usuario.PasswordHash);
-            if (!valid) return null;
+            if (!valid) return AuthResponseDTO<LoginRespDTO>.Fail("❌ Datos incorrectos");
 
             var keyStr = _config["Jwt:Key"];
             var issuer = _config["Jwt:Issuer"];
@@ -58,12 +58,16 @@ namespace Backend.Features.Auth.Services
                 signingCredentials: creds
             );
 
-            return new AuthResponseDTO
+            var data = new LoginRespDTO
             {
                 Email = usuario.Email,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration
+                Rol = usuario.Rol.Nombre,
+                Expiration = expiration   
             };
+
+            return AuthResponseDTO<LoginRespDTO>.Ok(data);
+
         }
     }
 }

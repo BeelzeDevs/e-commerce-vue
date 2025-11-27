@@ -88,4 +88,14 @@ insert into detalle_ordenes(orden_id,producto_id,cantidad,subtotal)
 values
 (1,1,1,29999.99);
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+UPDATE usuarios
+SET password_hash = crypt(password_hash, gen_salt('bf'))
+WHERE password_hash IS NOT NULL
+/*
+UPDATE usuarios
+SET password_hash = crypt(password_hash, gen_salt('bf'))
+WHERE password_hash IS NOT NULL
+  AND password_hash NOT LIKE '\$2_%' ESCAPE '\';
 
+/* '\$2_%' los hash de crypt generalmente empiezan con '$2a', '$2b'  */

@@ -4,6 +4,6 @@ namespace Backend.Features.Auth.Services
 {
     public interface IAuthService
     {
-        Task<AuthResponseDTO?> LoginAsync(UsuarioLoginDTO dto);
+        Task<AuthResponseDTO<LoginRespDTO>> LoginAsync(UsuarioLoginDTO dto);
     }
 }
