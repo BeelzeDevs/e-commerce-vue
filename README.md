@@ -23,6 +23,14 @@
 ## - Tailwind CSS v3.4.13
 ## - Autoprefixer (compability with navs) v10.4.20 y Postcss (execute css plugins) v8.4.31
 
+## Work List
+- Filtrar por estado / fecha / usuario nombre
+- Cambiar estado ordenes (pagado, enviado, cancelado)
+- Paginación tanto frontend como backend con page por parametro
+- Cantidad de órdenes o total gastado 
+- Bloquear / desactivar usuario
+- AdminStats -> Ventas totales / Ventas por mes / Ordenes por estado / Top productos / Usuarios nuevos por mes
+- /api/stats/summary /api/stats/orders-per-month /api/stats/top-products
 
 # Home Modules : User
 - Featured products

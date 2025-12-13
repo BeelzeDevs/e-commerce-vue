@@ -40,3 +40,45 @@ export type UsuarioReadDTO = {
     fechaRegistro: Date,
     estado : boolean
 };
+
+export type estadoOrden = 'Carrito' | 'Pagado' | 'Enviado' | 'Cancelado';
+
+export type OrdenReadDTO = {
+    id : number,
+    usuario: UsuarioReadDTO,
+    fecha : Date,
+    total : number,
+    estado : estadoOrden
+};
+
+export type DetalleReadDTO = {
+    ordenId : number,
+    producto : ProductoReadDTO,
+    precio_Producto : number,
+    cantidad : number,
+    subtotal : number
+};
+
+// Updates
+export type ProductoUpdateDTO = {
+    nombre : string,
+    categoriaId : number,
+    marca : string,
+    descripcion : string,
+    precio : number,
+    stock : number,
+    imagen : string,
+    estado : boolean
+};
+
+// Creates
+export type ProductoCreateDTO = {
+    nombre : string,
+    categoriaId : number,
+    marca : string,
+    descripcion : string,
+    precio : number,
+    stock : number,
+    imagen : string,
+    estado : boolean
+}

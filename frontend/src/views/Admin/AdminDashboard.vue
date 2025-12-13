@@ -1,10 +1,13 @@
 <template>
-  <div class="p-6">
-    <h1 class="text-2xl font-bold">Panel de Administrador</h1>
-    <p class="mt-2">Bienvenido al dashboard.</p>
-  </div>
+    <div class="max-h-[100vh] flex">
+      <AdminSidebar  />
+      <ProductListAdmin />
+    </div>
 </template>
 
 <script setup lang="ts">
+import AdminSidebar from '@/components/admin/AdminSidebar.vue';
+import ProductListAdmin from '@/components/admin/ProductListAdmin.vue';
+
 
 </script>

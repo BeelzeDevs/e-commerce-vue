@@ -1,4 +1,5 @@
 <template>
+  <NavBar />
   <div class="flex items-center justify-center h-screen bg-background">
     <form
       @submit.prevent="handleLogin"
@@ -34,6 +35,7 @@
 import { ref } from "vue";
 import { useAuthStore } from "../../store/authStore";
 import { useRouter } from "vue-router";
+import NavBar from "@/components/Nav-bar.vue";
 
 const email = ref("");
 const password = ref("");

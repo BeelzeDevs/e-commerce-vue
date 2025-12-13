@@ -72,6 +72,7 @@ namespace Backend.Data
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
                 entity.Property(e => e.Fecha).HasColumnName("fecha");
+                entity.Property(e=> e.Estado).HasColumnName("estado");
                 entity.Property(e => e.Total).HasColumnName("total");
                 
                 entity.HasMany(o => o.Detalles).WithOne(d => d.Orden).HasForeignKey(o => o.OrdenId);
@@ -85,6 +86,7 @@ namespace Backend.Data
 
                 entity.Property(e => e.OrdenId).HasColumnName("orden_id");
                 entity.Property(e => e.ProductoId).HasColumnName("producto_id");
+                entity.Property(e=> e.Precio_Producto).HasColumnName("precio_producto");
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
                 entity.Property(e => e.Subtotal).HasColumnName("subtotal");
                 

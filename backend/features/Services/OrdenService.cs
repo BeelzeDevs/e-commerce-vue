@@ -38,17 +38,33 @@ namespace Backend.Features.Services
         public async Task<List<OrdenReadDTO>> GetAll()
         {
             return await _context.Ordenes.Include(e => e.Detalles)
+            .Include(o => o.Usuario)
             .Select(o => new OrdenReadDTO
             {
                 Id = o.Id,
-                UsuarioId = o.UsuarioId,
+                Usuario = new UsuarioReadDTO
+                {
+                  Id = o.Usuario.Id,
+                  Nombre = o.Usuario.Nombre,
+                  Email = o.Usuario.Email,
+                  Rol = new RolReadDTO
+                  {
+                      Id = o.Usuario.RolId,
+                      Nombre = o.Usuario.Rol.Nombre,
+                  },
+                  FechaRegistro = o.Usuario.FechaRegistro,
+                  Estado = o.Usuario.Estado,
+                },
                 Fecha = o.Fecha,
-                Total = o.Total
+                Total = o.Total,
+                Estado = o.Estado
             }).ToListAsync();
         }
         public async Task<OrdenReadDTO> GetByOrdenId(int id)
         {
-            var orden = await _context.Ordenes.FirstOrDefaultAsync(o => o.Id == id);
+            var orden = await _context.Ordenes
+            .Include(o => o.Usuario)
+            .FirstOrDefaultAsync(o => o.Id == id);
 
             if (orden is null) throw new Exception($"La Orden no existe con el Orden ID : {id}");
             if (!EsMismoUsuario(orden.UsuarioId) && !EsAdmin()) throw new UnauthorizedAccessException("Acceso No Autorizado");
@@ -56,20 +72,50 @@ namespace Backend.Features.Services
             return new OrdenReadDTO
             {
                 Id = orden.Id,
-                UsuarioId = orden.UsuarioId,
+                Usuario = new UsuarioReadDTO
+                {
+                  Id = orden.Usuario.Id,
+                  Nombre = orden.Usuario.Nombre,
+                  Email = orden.Usuario.Email,
+                  Rol = new RolReadDTO
+                  {
+                      Id = orden.Usuario.RolId,
+                      Nombre = orden.Usuario.Rol.Nombre,
+                  },
+                  FechaRegistro = orden.Usuario.FechaRegistro,
+                  Estado = orden.Usuario.Estado,
+
+                },
                 Fecha = orden.Fecha,
-                Total = orden.Total
+                Total = orden.Total,
+                Estado = orden.Estado,
             };
         }
         public async Task<List<OrdenReadDTO>> GetOrdenesByUsarioId(int UsuarioId)
         {
             var ordenes = await _context.Ordenes
+            .Include(o => o.Usuario)
             .Where(o => o.UsuarioId == UsuarioId)
             .Select(o => new OrdenReadDTO
             {
                 Id = o.Id,
-                UsuarioId = o.UsuarioId,
+                Usuario = new UsuarioReadDTO
+                {
+                  Id = o.Usuario.Id,
+                  Nombre = o.Usuario.Nombre,
+                  Email = o.Usuario.Email,
+                  Rol = new RolReadDTO
+                  {
+                      Id = o.Usuario.RolId,
+                      Nombre = o.Usuario.Rol.Nombre,
+                  },
+                  FechaRegistro = o.Usuario.FechaRegistro,
+                  Estado = o.Usuario.Estado,
+
+                },
                 Fecha = o.Fecha,
+                Total = o.Total,
+                Estado = o.Estado,
             })
             .ToListAsync();
 
@@ -87,7 +133,8 @@ namespace Backend.Features.Services
             {
                 UsuarioId = dto.UsuarioId,
                 Fecha = DateTime.UtcNow,
-                Total = 0
+                Total = 0,
+                Estado = "Carrito",
             };
             if (orden is null) throw new Exception($"No se pudo crear la orden,datos incorrectos OrdenCreateDTO : {dto}");
 
@@ -98,9 +145,23 @@ namespace Backend.Features.Services
             return new OrdenReadDTO
             {
                 Id = orden.Id,
-                UsuarioId = orden.UsuarioId,
+                Usuario = new UsuarioReadDTO
+                {
+                  Id = orden.Usuario.Id,
+                  Nombre = orden.Usuario.Nombre,
+                  Email = orden.Usuario.Email,
+                  Rol = new RolReadDTO
+                  {
+                      Id = orden.Usuario.RolId,
+                      Nombre = orden.Usuario.Rol.Nombre,
+                  },
+                  FechaRegistro = orden.Usuario.FechaRegistro,
+                  Estado = orden.Usuario.Estado,
+
+                },
                 Fecha = orden.Fecha,
-                Total = orden.Total
+                Total = orden.Total,
+                Estado = orden.Estado,
             };
         }
 
@@ -111,7 +172,8 @@ namespace Backend.Features.Services
 
             if (!EsMismoUsuario(orden.UsuarioId) && !EsAdmin()) throw new UnauthorizedAccessException("Acceso No Autorizado");
             
-            orden.UsuarioId = dto.UsuarioId;
+            orden.Fecha = dto.Fecha;
+            orden.Estado = dto.Estado;
             orden.Total = dto.Total;
 
             await _context.SaveChangesAsync();
@@ -162,6 +224,7 @@ namespace Backend.Features.Services
             {
                 OrdenId = dxo.OrdenId,
                 Cantidad = dxo.Cantidad,
+                Precio_Producto = dxo.Precio_Producto,
                 Subtotal = dxo.Subtotal,
                 Producto = new ProductoReadDTO
                 {
@@ -200,6 +263,7 @@ namespace Backend.Features.Services
             {
                 OrdenId = dto.OrdenId,
                 ProductoId = dto.ProductoId,
+                Precio_Producto = producto.Precio,
                 Cantidad = dto.Cantidad,
                 Subtotal = dto.Cantidad * producto.Precio
             };
@@ -232,6 +296,7 @@ namespace Backend.Features.Services
 
             if (!EsMismoUsuario(detalle.Orden.UsuarioId) && !EsAdmin()) throw new UnauthorizedAccessException("Acceso no authorizado");
 
+            detalle.Precio_Producto = producto.Precio;
             detalle.Cantidad = dto.Cantidad;
             detalle.Subtotal = dto.Cantidad * producto.Precio;
             await _context.SaveChangesAsync();

@@ -33,7 +33,9 @@ namespace Backend.Features.Services
                 Stock = p.Stock,
                 Imagen = p.Imagen,
                 Estado = p.Estado
-            }).ToListAsync();
+            })
+            .OrderBy(p => p.Id)
+            .ToListAsync();
         }
         public async Task<List<ProductoReadDTO>> GetAllActives()
         {
@@ -53,7 +55,9 @@ namespace Backend.Features.Services
                 Stock = p.Stock,
                 Imagen = p.Imagen,
                 Estado = p.Estado
-            }).ToListAsync();
+            })
+            .OrderBy(p => p.Id)
+            .ToListAsync();
         }
         public async Task<ProductoReadDTO> GetById(int id)
         {

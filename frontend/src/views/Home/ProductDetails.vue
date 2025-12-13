@@ -6,9 +6,8 @@
 </template>
 
 <script setup lang="ts">
-// Puedes agregar lógica aquí más adelante
 </script>
 
 <style scoped>
-/* Opcional */
+
 </style>

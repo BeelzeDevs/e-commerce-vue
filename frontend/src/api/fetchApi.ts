@@ -19,7 +19,10 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}) : Promis
       headers,
     });
 
-    const json = await res.json();
+    let json = null;
+    const contentType = res.headers.get('content-type');
+    if(contentType && contentType.includes("application/json")) json = await res.json();
+
 
     // la api devolvió error en formato correcto
     if (!res.ok) {

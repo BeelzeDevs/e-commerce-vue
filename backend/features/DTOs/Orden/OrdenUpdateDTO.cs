@@ -5,5 +5,6 @@ namespace Backend.Features.DTOs
         public int UsuarioId { get; set; }
         public DateTime Fecha { get; set; } 
         public decimal Total { get; set; }
+        public string Estado {get;set;} = string.Empty;
     }
 }

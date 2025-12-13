@@ -5,6 +5,7 @@ namespace Backend.Features.Models
     {
         public int OrdenId { get; set; }
         public int ProductoId { get; set; }
+        public decimal Precio_Producto {get;set;}
         public int Cantidad { get; set; }
         public decimal Subtotal { get; set; }
 
