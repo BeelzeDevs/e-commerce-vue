@@ -40,18 +40,17 @@
 </template>
 
 <script setup lang="ts">
-import type { ProductoReadDTO, ProductoUpdateDTO } from '@/dtos/DTOs';
+import { esResultError, esResultSuccess, type ProductoReadDTO, type ProductoUpdateDTO } from '@/dtos/DTOs';
 
 // desestructuro producto como ProductoActual
 const props = defineProps<{ producto : ProductoReadDTO }>();
 
-import { ref, toRef } from 'vue';
+import { ref, toRef, watch } from 'vue';
 import fetchApi from '@/api/fetchApi';
 import { useAuthStore } from '@/store/authStore';
 
 const producto = toRef(props,"producto"); // propReactiva
 const modificando = ref(false);
-const auth = useAuthStore();
 const errorEliminando = ref("");
 
 const productoModificado = ref<ProductoUpdateDTO>({
@@ -87,26 +86,21 @@ const handleEliminar = async () =>{
     cargarBody();
     const resp = await fetchApi(`Producto/${producto.value.id}`,{
         method: "PUT",
-        headers : auth.getAuthHeader,
         body: JSON.stringify(productoModificado.value),
             
     });
-    if(resp.errorMessage){ errorEliminando.value= "❌ Error: " + resp.errorMessage; console.log(errorEliminando.value);}
-    else{
-        errorEliminando.value = resp.successMessage || "";
-    }
+    if(esResultError(resp.results)) errorEliminando.value= "❌ " +  resp.results.errorMessage;
+    if(esResultSuccess(resp.results)) errorEliminando.value = "✔ " + resp.results.successMessage || "";
     
 }
 const handleSubmitMod = async () =>{
     const resp = await fetchApi(`Producto/${producto.value.id}`,{
         method : "PUT",
-        headers : auth.getAuthHeader,
         body : JSON.stringify(productoModificado.value)
     });
-    if(resp.errorMessage) errorEliminando.value = "❌ Error: " + resp.errorMessage;
-    else{
-        errorEliminando.value = resp.successMessage || "";
-    }
+    if(esResultError(resp.results)) errorEliminando.value = "❌ " + resp.results.errorMessage;
+    if(esResultSuccess(resp.results)) errorEliminando.value = "✔ " + resp.results.successMessage || "";
+
     producto.value.nombre = productoModificado.value.nombre;
     producto.value.imagen = productoModificado.value.imagen;
     producto.value.precio = productoModificado.value.precio;
@@ -115,4 +109,12 @@ const handleSubmitMod = async () =>{
     modificando.value = false;
 
 };
+
+
+const timeout = ref(0);
+
+watch(errorEliminando,()=>{
+    clearTimeout(timeout.value);
+    timeout.value = setTimeout(()=> {errorEliminando.value=""},1900);
+})
 </script>

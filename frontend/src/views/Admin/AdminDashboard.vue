@@ -1,5 +1,5 @@
 <template>
-    <div class="max-h-[100vh] flex">
+    <div class="max-h-[100vh] flex ">
       <AdminSidebar  />
       <ProductListAdmin />
     </div>

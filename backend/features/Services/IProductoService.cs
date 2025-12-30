@@ -10,5 +10,7 @@ namespace Backend.Features.Services
         Task<ProductoReadDTO> Create(ProductoCreateDTO dto);
         Task<bool> Update(int id, ProductoUpdateDTO dto);
         Task<bool> DeleteByLogic(int id);
+        Task<ResultadoPaginado<ProductoReadDTO>> GetAllPagerFilterAdmin(ProductoQuery prodQuery);
+        Task<ResultadoPaginado<ProductoReadDTO>> GetAllPagerFilterUser(ProductoQuery prodQuery);
     }
 }

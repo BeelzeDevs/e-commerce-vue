@@ -105,7 +105,7 @@
 <script setup lang="ts">
     
 import fetchApi from '@/api/fetchApi';
-import type { CategoriaReadDTO, ProductoCreateDTO } from '@/dtos/DTOs';
+import { esResultError, esResultSuccess, type CategoriaReadDTO, type ProductoCreateDTO } from '@/dtos/DTOs';
 import { useAuthStore } from '@/store/authStore';
 import { onMounted, ref } from 'vue';
 
@@ -149,12 +149,11 @@ const handleSubmitCrear = async () =>{
 
     const resp = await fetchApi('Producto',{
         method : "POST",
-        headers : auth.getAuthHeader,
         body : JSON.stringify(productoACrear.value)
     });
-    if(resp.errorMessage) errorCategorias.value = "❌ " + resp.errorMessage;
+    if(esResultError(resp.results)) errorCategorias.value = resp.results.errorMessage;
     else{
-        errorCategorias.value = resp.successMessage || "";
+        if(esResultSuccess(resp.results)) errorCategorias.value = resp.results.successMessage || "";
         errorList.value = [];
         handleModalCrear();
         emit('toogleReload');
@@ -179,9 +178,9 @@ const verificarDatos = () =>{
 onMounted( async () =>{
 
     const resp = await fetchApi<CategoriaReadDTO>('Categoria');
-    if (resp.errorMessage) errorCategorias.value = "❌ "+ resp.errorMessage;
+    if(esResultError(resp.results)) errorCategorias.value = resp.results.errorMessage;
     else{
-        categorias.value = resp.results || [];
+        categorias.value = resp.results as CategoriaReadDTO[];
         errorCategorias.value = "";
     }
 

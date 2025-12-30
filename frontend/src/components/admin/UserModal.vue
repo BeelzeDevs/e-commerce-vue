@@ -20,7 +20,7 @@
                             <tr  v-for="(or ) in ordenes" v-bind:key="or.id" class="hover:bg-slate-700 transition">
                                 <td class="px-4 py-2 text-left font-semibold">{{ new Date(or.fecha).toLocaleDateString()  }}</td>
                                 <td class="px-4 py-2 text-center font-semibold">{{ or.estado }}</td>
-                                <td class="px-4 py-2 text-center font-semibold" >${{ or.total  }}</td>
+                                <td class="px-4 py-2 text-center font-semibold" >${{ or.total.toLocaleString()  }}</td>
                                 <td class="px-4 py-2 text-right whitespace-nowrap"><button @click="mostrarModalOrden(or)" class="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded-lg text-sm md:text-base shadow">Ver Detalles</button></td>
                             </tr>
                             
@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import fetchApi from '@/api/fetchApi';
 import DetailModal from '@/components/admin/DetailModal.vue';
-import type { UsuarioReadDTO, OrdenReadDTO } from '@/dtos/DTOs';
+import { type UsuarioReadDTO, type OrdenReadDTO, esResultError } from '@/dtos/DTOs';
 import { useAuthStore } from '@/store/authStore';
 
 import { onMounted, ref, toRef } from 'vue';
@@ -60,12 +60,10 @@ const ordenes = ref<OrdenReadDTO[]>([]);
 const errorLoading = ref("");
 
 const fetchOrdenes = async ()=>{
-    const resp = await fetchApi<OrdenReadDTO>(`Ordenes/usuario/${usuario.value.id}/all`,{
-        headers : auth.getAuthHeader
-    });
-    if(resp.errorMessage) errorLoading.value = "❌ Error: " + resp.errorMessage; 
+    const resp = await fetchApi<OrdenReadDTO>(`Ordenes/usuario/${usuario.value.id}/all`);
+    if(esResultError(resp.results)) errorLoading.value = resp.results.errorMessage; 
     else{
-        ordenes.value = resp.results || [];
+        ordenes.value = resp.results as OrdenReadDTO[];
     }
     
 };
@@ -89,7 +87,7 @@ const ordenToDetail = ref<OrdenReadDTO>({
     },
     fecha : new Date("00/00/0000"),
     total : 0,
-    estado : "Carrito"
+    estado : "Pendiente"
 });
 const seeDetail = ref(false);
 const HandlerDetail = () =>{

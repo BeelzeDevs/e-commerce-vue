@@ -32,7 +32,8 @@ namespace Backend.Features.Controllers
             return Ok(new ApiResponse<CategoriaReadDTO>(categoria));
         }
 
-        [Authorize(Policy = "SoloAdmin")]
+        
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CategoriaCreateDTO dto)
         {
@@ -40,7 +41,7 @@ namespace Backend.Features.Controllers
             return CreatedAtAction(nameof(GetById), new { CatId = cat.Id }, new {Results = cat} );
         }
         
-        [Authorize(Policy ="SoloAdmin")]
+        [Authorize]
         [HttpPut("{CatId}")]
         public async Task<IActionResult> Update(int CatId, [FromBody] CategoriaCreateDTO dto)
         {

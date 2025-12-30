@@ -4,7 +4,7 @@ namespace Backend.Features.Results
     {
         public T Results { get; set; }
 
-        public ApiResponse(T results) => Results = results;
+        public ApiResponse(T Results) => this.Results = Results;
 
         public static ApiResponse<ResultSuccess> Success(string message) =>
             new(new ResultSuccess { SuccessMessage = message });

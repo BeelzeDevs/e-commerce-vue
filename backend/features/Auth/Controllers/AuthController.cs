@@ -19,9 +19,7 @@ namespace Backend.Features.Auth.Controllers
         public async Task<IActionResult> Login([FromBody] UsuarioLoginDTO dto)
         {
             var authResult = await _service.LoginAsync(dto);
-            return authResult is not null
-            ? Ok(authResult)
-            : Unauthorized(ApiResponse<ResultError>.Error("Email o contraseña incorrectos."));
+            return Ok(new ApiResponse<LoginRespDTO>(authResult));
             
         }
     }

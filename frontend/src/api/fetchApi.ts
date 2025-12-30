@@ -19,27 +19,18 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}) : Promis
       headers,
     });
 
-    let json = null;
     const contentType = res.headers.get('content-type');
-    if(contentType && contentType.includes("application/json")) json = await res.json();
+    const json = contentType?.includes('application/json') ? await res.json() : null;
 
-
-    // la api devolvió error en formato correcto
-    if (!res.ok) {
-      return {
-        results: [],
-        errorMessage: json?.errorMessage || res.statusText,
-      };
-    }
-
-    // todo salió bien
     return json as ApiResponse<T>;
 
+
   } catch (err: any) {
-    // Error de red, servidor caído, JSON inválido.
+    // Error de red | servidor caído | JSON inválido.
     return {
-      results: [],
+      results: {
       errorMessage: err?.message || "Error de conexión",
+      }
     };
   }
 

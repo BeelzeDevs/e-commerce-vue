@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import fetchApi from "../api/fetchApi";
-import { type LoginDTO } from "@/dtos/DTOs";
+import { esResultError, type LoginDTO } from "@/dtos/DTOs";
 import router from "@/router";
 
 interface User {
+  nombre : string,
   email: string;
   rol: string;
 }
@@ -25,26 +26,28 @@ export const useAuthStore = defineStore("auth", {
         body: JSON.stringify({ email, password }),
       });
       
-      if (data.errorMessage) {
-        throw new Error(data.errorMessage);
+      if (!data.results || "token" in data.results === false) {
+        throw new Error("Respuesta inesperada del servidor");
       }
 
-      const resultados = data.results?.[0];
-      if (!resultados) {
-          throw new Error("Respuesta inesperada del servidor");
+      if (esResultError(data.results)) {
+        throw new Error(data.results.errorMessage);
       }
+
+      const resultados = data.results;
       
-      const user: User = { email: resultados.email, rol: resultados.rol };
+      
+      const user: User = { nombre : resultados.nombre , email: resultados.email, rol: resultados.rol };
       const expiracion = resultados.expiration;
 
 
       this.token = resultados.token;
       this.user = user;
-      this.exp = expiracion.toString();
+      this.exp = new Date(expiracion).toISOString();
 
       localStorage.setItem("token", resultados.token);
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("exp", expiracion.toString() );
+      localStorage.setItem("exp", this.exp );
       
     },
 
@@ -70,7 +73,10 @@ export const useAuthStore = defineStore("auth", {
       return state.user;
     },
     getAuthHeader(state){
-      return { Authorization : `Bearer ${state.token}`};
+      return state.token ? { Authorization : `Bearer ${state.token}`} : {};
+    },
+    estaAuthenticado(state) {
+      return !!state.token && !!state.user;
     },
     getExp(state){
       return state.exp ? new Date(state.exp) : null;

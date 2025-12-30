@@ -7,13 +7,22 @@ using Backend.Features.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Servicios default
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddControllers();
+// builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+// controllers con un ajuste para unificar el json y que utilize CamelCase en lugar de PascalCase como lo hace por defecto
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+    });
+
 //base datos
 builder.Services.AddDbContext<EcommerceDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -25,6 +34,7 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddScoped<IOrdenService, OrdenService>();
+builder.Services.AddScoped<IStatsService,StatsService>();
 
 // Jwt
 builder.Services.AddScoped<IAuthService, AuthService>();

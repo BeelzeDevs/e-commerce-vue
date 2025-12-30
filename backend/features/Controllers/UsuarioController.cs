@@ -18,14 +18,21 @@ namespace Backend.Features.Controllers
         }
 
 
-        [Authorize(Policy = "SoloAdmin")]
+        // [Authorize]
+        // [HttpGet]
+        // public async Task<IActionResult> GetAll()
+        // {
+        //     var usuarios = await _service.GetAll();
+        //     return Ok(new ApiResponse<List<UsuarioReadDTO>>(usuarios));
+        // }
+        
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllPagerFilterAdmin([FromQuery] UsuarioQueryDTO dto)
         {
-            var usuarios = await _service.GetAll();
-            return Ok(new ApiResponse<List<UsuarioReadDTO>>(usuarios));
+            var usuarios = await _service.GetAllPagerFilterAdmin(dto);
+            return Ok(new ApiResponse<ResultadoPaginado<UsuarioReadDTO>>(usuarios));
         }
-
 
         [Authorize]
         [HttpGet("{UsuarioId}")]
@@ -39,7 +46,15 @@ namespace Backend.Features.Controllers
         public async Task<IActionResult> Create([FromBody] UsuarioCreateDTO dto)
         {
             var UsuarioCreado = await _service.Create(dto);
-            return CreatedAtAction(nameof(GetById), new { UsuarioId = UsuarioCreado.Id }, new {Results = UsuarioCreado });
+            return Ok(new ApiResponse<UsuarioReadDTO>(UsuarioCreado));
+        }
+        
+        [Authorize]
+        [HttpPost("crear-admin")]
+        public async Task<IActionResult> Create([FromBody] CreateAdminDTO dto)
+        {
+            var UsuarioCreado = await _service.CreateAdmin(dto);
+            return Ok(new ApiResponse<UsuarioReadDTO>(UsuarioCreado));
         }
 
 
@@ -52,7 +67,7 @@ namespace Backend.Features.Controllers
         }
 
         
-        [Authorize(Policy ="SoloAdmin")]
+        [Authorize]
         [HttpDelete("{UsuarioId}")]
         public async Task<IActionResult> DeleteByLogic(int UsuarioId)
         {

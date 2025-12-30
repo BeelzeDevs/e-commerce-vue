@@ -5,6 +5,7 @@ using Backend.Features.Auth.DTOs;
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Backend.Features.Results;
 
 namespace Backend.Features.Auth.Services
 {
@@ -19,21 +20,21 @@ namespace Backend.Features.Auth.Services
             _config = config;
         }
 
-        public async Task<AuthResponseDTO<LoginRespDTO>> LoginAsync(UsuarioLoginDTO dto)
+        public async Task<LoginRespDTO> LoginAsync(UsuarioLoginDTO dto)
         {
             var usuario = await _context.Usuarios
                 .Include(u => u.Rol)
                 .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-            if (usuario is null) return AuthResponseDTO<LoginRespDTO>.Fail("❌ Datos incorrectos");
+            if (usuario is null) throw new UnauthorizedAccessException("❌ Email incorrecto");
 
             var valid = BCrypt.Net.BCrypt.Verify(dto.Password, usuario.PasswordHash);
-            if (!valid) return AuthResponseDTO<LoginRespDTO>.Fail("❌ Datos incorrectos");
+            if (!valid) throw new UnauthorizedAccessException("❌ Datos incorrectos");
 
             var keyStr = _config["Jwt:Key"];
             var issuer = _config["Jwt:Issuer"];
             var audience = _config["Jwt:Audience"];
-            var expiresMinutes = _config.GetValue<int?>("Jwt:ExpiresInMinutes") ?? 60;
+            var expiresMinutes = _config.GetValue<int?>("Jwt:ExpiresInMinutes") ?? 240;
 
             if (string.IsNullOrWhiteSpace(keyStr))
                 throw new InvalidOperationException("la key de JWT no esta configurada");
@@ -58,15 +59,14 @@ namespace Backend.Features.Auth.Services
                 signingCredentials: creds
             );
 
-            var data = new LoginRespDTO
+            return new LoginRespDTO
             {
+                Nombre = usuario.Nombre,
                 Email = usuario.Email,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Rol = usuario.Rol.Nombre,
                 Expiration = expiration   
             };
-
-            return AuthResponseDTO<LoginRespDTO>.Ok(data);
 
         }
     }

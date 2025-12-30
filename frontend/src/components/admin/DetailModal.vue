@@ -16,16 +16,16 @@
                     <tbody class="divide-y divide-slate-700 " >
                             <tr v-for=" det in detalles" v-bind:key="`${det.ordenId} + ${det.producto.id}`"  class="hover:bg-slate-700 transition">
                                 <td class="px-4 py-2 text-left font-semibold">{{ det.producto.nombre  }}</td>
-                                <td class="px-4 py-2 text-center font-semibold">${{ det.precio_Producto }}</td>
+                                <td class="px-4 py-2 text-center font-semibold">${{ det.precio_Producto.toLocaleString() }}</td>
                                 <td class="px-4 py-2 text-center font-semibold" >{{ det.cantidad  }}</td>
-                                <td class="px-4 py-2 text-center font-semibold">${{ det.subtotal  }}</td>
+                                <td class="px-4 py-2 text-center font-semibold">${{ det.subtotal.toLocaleString()  }}</td>
                             </tr>
                             <tr class="text-lg md:text-xl font-semibold">
                                 <td class="px-4 py-2 text-left font-semibold">Total</td>
                                 <td></td>
                                 <td></td>
                                 <td class="text-green-600 px-4 py-2 text-center font-semibold">
-                                    ${{ orden.total }}
+                                    ${{ orden.total.toLocaleString() }}
                                 </td>
                             </tr>
                     </tbody>
@@ -42,7 +42,7 @@
 <script setup lang="ts">
 
 import fetchApi from '@/api/fetchApi';
-import type { DetalleReadDTO, OrdenReadDTO } from '@/dtos/DTOs';
+import { esResultError, type DetalleReadDTO, type OrdenReadDTO } from '@/dtos/DTOs';
 import { useAuthStore } from '@/store/authStore';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, toRef } from 'vue';
@@ -78,12 +78,10 @@ const detalles = ref<DetalleReadDTO[]>([{
 
 
 const fetchDetalles = async () => { 
-    const resp = await fetchApi<DetalleReadDTO>(`Ordenes/${orden.value.id}/detalles`,{
-         headers : getAuthHeader.value,
-    });
-    if(resp.errorMessage) error.value = `❌ error : ${resp.errorMessage}`;
+    const resp = await fetchApi<DetalleReadDTO>(`Ordenes/${orden.value.id}/detalles`);
+    if(esResultError(resp.results)) error.value = resp.results.errorMessage;
     else{
-        detalles.value = resp.results || [];
+        detalles.value = resp.results as DetalleReadDTO[];
     }
 };
 

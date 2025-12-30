@@ -17,13 +17,21 @@ namespace Backend.Features.Controllers
             _service = service;
         }
 
-        [Authorize(Policy = "SoloAdmin")]
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var ordenes = await _service.GetAll();
-            return Ok(new ApiResponse<List<OrdenReadDTO>>(ordenes));
+        // [Authorize]
+        // [HttpGet]
+        // public async Task<IActionResult> GetAll()
+        // {
+        //     var ordenes = await _service.GetAll();
+        //     return Ok(new ApiResponse<List<OrdenReadDTO>>(ordenes));
 
+        // }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAllPagerFilterAdmin([FromQuery] OrdenQueryDTO dto)
+        {
+            var ordenes = await _service.GetAllPagerFilterAdmin(dto);
+            return Ok(new ApiResponse<ResultadoPaginado<OrdenReadDTO>>(ordenes));
         }
         
         [Authorize]
@@ -48,25 +56,28 @@ namespace Backend.Features.Controllers
         public async Task<IActionResult> Create([FromBody] OrdenCreateDTO dto)
         {
             var OrdenCreada = await _service.Create(dto);
-            return CreatedAtAction(nameof(GetByOrdenId), new { OrdenId = OrdenCreada.Id }, new {Results = OrdenCreada});
+            return Ok(new ApiResponse<OrdenReadDTO>(OrdenCreada));
         }
-        // admines y usuarios que tengan el id del token
-        [Authorize]
-        [HttpPut("{OrdenId}")]
-        public async Task<IActionResult> Update(int OrdenId, [FromBody] OrdenUpdateDTO dto)
-        {
-            var OrdenActualizadaConExito = await _service.Update(OrdenId, dto);
-            return Ok(ApiResponse<ResultSuccess>.Success("Orden actualizada con éxito"));
+        
+        // // admines y usuarios que tengan el id del token
+        // [Authorize]
+        // [HttpPut("{OrdenId}")]
+        // public async Task<IActionResult> Update(int OrdenId, [FromBody] OrdenUpdateDTO dto)
+        // {
+        //     var OrdenActualizadaConExito = await _service.Update(OrdenId, dto);
+        //     return Ok(ApiResponse<ResultSuccess>.Success("Orden actualizada con éxito"));
             
-        }
-        // admines y usuarios que tengan el id del token
-        [Authorize]
-        [HttpDelete("{OrdenId}")]
-        public async Task<IActionResult> Delete(int OrdenId)
-        {
-            var exito = await _service.Delete(OrdenId);
-            return Ok(ApiResponse<ResultSuccess>.Success("Se elimino con éxito"));
-        }
+        // }
+        // // admines y usuarios que tengan el id del token
+        // [Authorize]
+        // [HttpDelete("{OrdenId}")]
+        // public async Task<IActionResult> Delete(int OrdenId)
+        // {
+        //     var exito = await _service.Delete(OrdenId);
+        //     return Ok(ApiResponse<ResultSuccess>.Success("Se elimino con éxito"));
+        // }
+        
+
         // admines y usuarios que tengan el id del token
         [Authorize]
         [HttpGet("{OrdenId}/detalles")]
@@ -75,30 +86,24 @@ namespace Backend.Features.Controllers
             var detalles = await _service.GetDetallesByOrdenId(OrdenId);
             return Ok(new ApiResponse<List<DetalleReadDTO>>(detalles));
         }
+        
+        
         // admines y usuarios que tengan el id del token
-        [Authorize]
-        [HttpPut("addDetalle")]
-        public async Task<IActionResult> AddDetalle([FromBody] DetalleCreateDTO dto)
-        {
-            var DetalleAgregado = await _service.AddDetalle(dto);
-            return Ok(ApiResponse<ResultSuccess>.Success("Producto agregado con éxito."));
-        }
-        // admines y usuarios que tengan el id del token
-        [Authorize]
-        [HttpDelete("removeDetalle")]
-        public async Task<IActionResult> DeleteDetalle([FromBody] DetalleDeleteDTO dto)
-        {
-            var DetalleEliminado = await _service.DeleteDetalle(dto);
-            return Ok(ApiResponse<ResultSuccess>.Success("Producto eliminado con éxito."));
-        }
-        // admines y usuarios que tengan el id del token
-        [Authorize]
-        [HttpPut("updateDetalle")]
-        public async Task<IActionResult> UpdateDetalle([FromBody] DetalleCreateDTO dto)
-        {
-            var DetalleModificado = await _service.UpdateDetalle(dto);
-            return Ok(ApiResponse<ResultSuccess>.Success("Producto modificado con éxito."));
-        }
+        // [Authorize]
+        // [HttpDelete("removeDetalle")]
+        // public async Task<IActionResult> DeleteDetalle([FromBody] DetalleDeleteDTO dto)
+        // {
+        //     var DetalleEliminado = await _service.DeleteDetalle(dto);
+        //     return Ok(ApiResponse<ResultSuccess>.Success("Producto eliminado con éxito."));
+        // }
+        // // admines y usuarios que tengan el id del token
+        // [Authorize]
+        // [HttpPut("updateDetalle")]
+        // public async Task<IActionResult> UpdateDetalle([FromBody] DetalleCreateDTO dto)
+        // {
+        //     var DetalleModificado = await _service.UpdateDetalle(dto);
+        //     return Ok(ApiResponse<ResultSuccess>.Success("Producto modificado con éxito."));
+        // }
 
     }
 }

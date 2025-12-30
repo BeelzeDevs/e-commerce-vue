@@ -22,15 +22,30 @@
 ## - TypeScript v5.9.0
 ## - Tailwind CSS v3.4.13
 ## - Autoprefixer (compability with navs) v10.4.20 y Postcss (execute css plugins) v8.4.31
+## - Chart.js: v4.5.1 y Vue-chartjs v5.3.3
 
 ## Work List
 - Filtrar por estado / fecha / usuario nombre
-- Cambiar estado ordenes (pagado, enviado, cancelado)
 - Paginación tanto frontend como backend con page por parametro
-- Cantidad de órdenes o total gastado 
-- Bloquear / desactivar usuario
-- AdminStats -> Ventas totales / Ventas por mes / Ordenes por estado / Top productos / Usuarios nuevos por mes
-- /api/stats/summary /api/stats/orders-per-month /api/stats/top-products
+- Bloquear / desactivar usuario 
+- Cambiar estado ordenes (pagado, enviado, cancelado) ✔
+- Cantidad de órdenes o total gastado  ✔
+- AdminStats -> Ventas totales / Ventas por mes / Ordenes por estado / Top productos / Usuarios nuevos por mes ✔
+- /api/stats/summary /api/stats/orders-per-month /api/stats/top-products ✔
+
+- Homeview
+- ProductDetailView
+- CartView
+- UserPanelView
+- CheckoutView
+
+- ProductList & Card
+- ProductFilters
+- FeaturedProducts
+- CartItem
+
+- CartStore
+- ProductStore
 
 # Home Modules : User
 - Featured products
@@ -42,6 +57,7 @@
 - User panel (see orders)
 
 
+
 # Home Modules : Admin
 - Login Admin
 - Product Managment
@@ -51,6 +67,7 @@
 
 # Backend
 - CRUD Products, Categories, Users, Orders, OrderDetails(Products)
+- Statistics : Total Sales, Stats by Order state, Mensual Sales, Top Month, Top (3,5,10,20) Products 
 - JWT Authentication
 - Rol: Client, Admin
 - Data transfer objects

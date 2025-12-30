@@ -15,23 +15,23 @@ namespace Backend.Features.Controllers
         {
             _service = service;
         }
-
-        [Authorize(Policy = "SoloAdmin")]
-        [HttpGet]
+        
+        [Authorize]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
             var productos = await _service.GetAll();
             return Ok(new ApiResponse<List<ProductoReadDTO>>(productos));
         }
 
-        [HttpGet("actives")]
-        public async Task<IActionResult> GetAllActives()
-        {
-            var productos = await _service.GetAllActives();
-            return Ok(new ApiResponse<List<ProductoReadDTO>>(productos));
+        // [HttpGet("actives")]
+        // public async Task<IActionResult> GetAllActives()
+        // {
+        //     var productos = await _service.GetAllActives();
+        //     return Ok(new ApiResponse<List<ProductoReadDTO>>(productos));
             
-        }
-        [Authorize(Policy = "SoloAdmin")]
+        // }
+        
         [HttpGet("{ProductoId}")]
         public async Task<IActionResult> GetById(int ProductoId)
         {
@@ -39,8 +39,8 @@ namespace Backend.Features.Controllers
             return Ok(new ApiResponse<ProductoReadDTO>(producto));
             
         }
-
-        [Authorize(Policy = "SoloAdmin")]
+    
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProductoCreateDTO dto)
         {
@@ -48,7 +48,7 @@ namespace Backend.Features.Controllers
             return CreatedAtAction(nameof(GetById), new { ProductoId = productoCreado.Id }, new {Results = productoCreado});
         }
 
-        [Authorize(Policy = "SoloAdmin")]
+        [Authorize]
         [HttpPut("{ProductoId}")]
         public async Task<IActionResult> Update(int ProductoId, [FromBody] ProductoUpdateDTO dto)
         {
@@ -56,12 +56,27 @@ namespace Backend.Features.Controllers
             return Ok(ApiResponse<ResultSuccess>.Success("Producto actualizado con éxito."));
         }
         
-        [Authorize(Policy ="SoloAdmin")]
+        [Authorize]
         [HttpDelete("{ProductoId}")]
         public async Task<IActionResult> DeleteByLogic(int ProductoId)
         {
             var eliminado = await _service.DeleteByLogic(ProductoId);
             return Ok(ApiResponse<ResultSuccess>.Success("Producto eliminado con éxito."));        
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAllPagerFilterAdmin([FromQuery] ProductoQuery query)
+        {
+            var productos = await _service.GetAllPagerFilterAdmin(query);
+            return Ok(new ApiResponse<ResultadoPaginado<ProductoReadDTO>>(productos));
+        }
+
+        [HttpGet("actives")]
+        public async Task<IActionResult> GetAllPagerFilterUser([FromQuery] ProductoQuery query)
+        {
+            var productos = await _service.GetAllPagerFilterUser(query);
+            return Ok(new ApiResponse<ResultadoPaginado<ProductoReadDTO>>(productos));
         }
     }
 }
