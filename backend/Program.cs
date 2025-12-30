@@ -104,7 +104,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("frontend", policy =>
     {
        policy
-            .WithOrigins("http://localhost:5555")
+            .WithOrigins("https://e-commerce-vue-front.onrender.com")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();

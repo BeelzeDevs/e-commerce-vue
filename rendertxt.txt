@@ -26,5 +26,12 @@ luego commandos :
 - \dt -> resultado -> la lista de las relaciones
 - podemos hacer consultas para verificar el estado de la base de datos : select count(*) from usuarios/productos/etc;
 
+Cargar el backend con las variables de entorno:
 
+ASPNETCORE_ENVIRONMENT : Production
+ConnectionStrings__DefaultConnection : Host=dpg-d5a3jbje5dus73esq640-a;Port=5432;Database=ecommerce_vue;Username=ecommerce_vue_user;Password=hYAUhaUJuK69vQwYigZfr0o1PTVeQwHU;SslMode=Require;Trust Server Certificate=true
+Jwt__Audience : 
+Jwt__Issuer : 
+Jwt__Key : 
 
+el ConnectionString en render debe tener SslMode=Require
