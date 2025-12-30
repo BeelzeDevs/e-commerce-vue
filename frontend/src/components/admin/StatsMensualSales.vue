@@ -26,6 +26,7 @@ import fetchApi from '@/api/fetchApi';
 import { esResultError, type VentasPorMesDTO } from '@/dtos/DTOs';
 import { useAuthStore } from '@/store/authStore';
 import { computed, onMounted, ref } from 'vue';
+import type { ChartOptions } from "chart.js";
 
 const auth = useAuthStore();
 const errorFetch = ref("");
@@ -95,7 +96,7 @@ const chartData = computed(() => ({
     }
   ]
 }));
-const chartOptions = {
+const chartOptions : ChartOptions<"line"> = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
@@ -121,17 +122,16 @@ const chartOptions = {
       grid: { color: "rgba(255,255,255,0.05)" }
     },
     yVentas: {                                // total en eje Y 
-      type: "linear",
+      type: "linear" ,
       position: "left",
       ticks: {
         color: "oklch(62.3% 0.214 259.815)", // blue 500-tailwind - total ventas
-        callback: (v: number) =>
-          `$${v.toLocaleString("es-AR")}`
+        callback: (v) => `$${Number(v).toLocaleString("es-AR")}`
       },
       grid: { color: "rgba(255,255,255,0.05)" }
     },
     yOrdenes: {                               // Cantidad ordenes en eje Y
-      type: "linear",
+      type: "linear" ,
       position: "left",
       ticks: { color: "oklch(69% 0.17 146)" }, // green - cantidad ordenes
       grid: { drawOnChartArea: false }
