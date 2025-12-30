@@ -1,5 +1,13 @@
 <template>
-    <section class="px-40 relative pt-32 pb-10">
+    <div class="flex justify-center items-center w-full">
+      <div v-if="loading" class="loading-container mx-10 my-10">
+        <div  class="loading"></div>
+        <div class="loading-text text-white">Cargando...</div>
+      </div>
+    </div>
+
+    <section class="px-40 relative pt-32 pb-10" v-if="!loading">
+
         <button
             @click="prev"
             class="absolute left-10 top-1/2 -translate-y-1/2 bg-slate-800/80 p-2 rounded-full disabled:opacity-40 w-16 h-16 text-white outline outline-indigo-600  hover:outline-yellow-400 hover:outline flex justify-center items-center"
