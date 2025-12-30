@@ -1,7 +1,7 @@
 <template>
-  <div class="block w-full px-40 pt-32 pb-10">
+  <div class="block w-full px-40 pt-32 pb-10 relative" v-if="loading">
     <div class="flex justify-center items-center w-full">
-      <div v-if="loading" class="loading-container mx-10 my-10">
+      <div class="loading-container">
         <div  class="loading"></div>
         <div class="loading-text text-white">Cargando...</div>
       </div>
