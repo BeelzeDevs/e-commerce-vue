@@ -95,11 +95,10 @@ const fetchProductos = async ()=>{
         errorFetch.value = "❌ " + resp.results.errorMessage;
         loading.value = false;
     }
-
-    productos.value = resp.results.items;
-    loading.value = false;
-    console.log(maxIndex.value);
-
+    if("items" in resp.results && "totalPages" in resp.results){
+        productos.value = resp.results.items;
+        loading.value = false;
+    }
 };
 
 </script>

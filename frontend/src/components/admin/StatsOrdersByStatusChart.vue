@@ -92,7 +92,7 @@ const chartOptions = {
     },
     tooltip: {
       callbacks: {
-        label: (ctx ) =>
+        label: (ctx : any ) =>
           `${ctx.label}: ${ctx.raw} órdenes`
       }
     }

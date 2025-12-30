@@ -128,9 +128,11 @@ const fetchOrdenes = async () =>{
         loading.value = false;
     } 
     else{
-        ordenes.value = resp.results.items;
-        totalPages.value = resp.results.totalPages;
-        loading.value = false;
+        if("items" in resp.results && "totalPages" in resp.results){
+            ordenes.value = resp.results.items;
+            totalPages.value = resp.results.totalPages;
+            loading.value = false;
+        }
     }
 };
 

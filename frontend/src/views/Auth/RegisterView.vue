@@ -163,7 +163,7 @@ const CrearUsuario = async() =>{
     method : "POST",
     body : JSON.stringify(UsuarioACrear.value)
   });
-  if(resp.errorMessage) console.log('Error al crear usuario : ' + resp.results);
+  if("errorMessage" in resp) console.log('Error al crear usuario : ' + resp.results);
   else{
       auth.login(UsuarioACrear.value.email,UsuarioACrear.value.password);
       router.push('/');

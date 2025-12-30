@@ -74,10 +74,11 @@ const fetchProductos = async () =>{
       loading.value = false;
       return;
     }
-
-    productos.value = resp.results.items;
-    totalPages.value = resp.results.totalPages;
-    loading.value = false;
+    if("items" in resp.results && "totalPages" in resp.results){
+      productos.value = resp.results.items;
+      totalPages.value = resp.results.totalPages;
+      loading.value = false;
+    }
     
 };
 

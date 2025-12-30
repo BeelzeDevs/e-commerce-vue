@@ -103,9 +103,11 @@ const FetchUsuarios = async () =>{
         return;
     }
     else{
-        usuarios.value = resp.results.items;
-        totalPages.value = resp.results.totalPages;
-        loading.value = false;
+        if("items" in resp.results && "totalPages" in resp.results){
+            usuarios.value = resp.results.items;
+            totalPages.value = resp.results.totalPages;
+            loading.value = false;
+        }
     }
 
 };

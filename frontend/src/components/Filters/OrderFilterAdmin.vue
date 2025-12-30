@@ -58,8 +58,8 @@
 </template>
 
 <script setup lang="ts">
-import {  onMounted, reactive, ref, watch } from 'vue';
-import {estadoOrden} from "@/dtos/DTOs";
+import { reactive, ref, watch } from 'vue';
+import type {estadoOrden} from "@/dtos/DTOs";
 
 const estados = ref<estadoOrden[]>(["Pendiente","Pagado","Enviado","Cancelado"]);
 

@@ -79,9 +79,11 @@ const fetchProductos = async () =>{
       return;
     }
     else{
+      if("items" in resp.results && "totalPages" in resp.results){
         productos.value = resp.results.items;
         totalPages.value = resp.results.totalPages;
         loading.value = false;
+      }
     }
 };
 
