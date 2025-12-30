@@ -14,7 +14,7 @@ namespace Backend.Data.Controller
             _context = context;
         }
         [HttpGet]
-        public async Task<IResult> getHealth()
+        public async Task<IActionResult> getHealth()
         {
             try
             {
@@ -26,7 +26,7 @@ namespace Backend.Data.Controller
                 var ordenes = await _context.Ordenes.CountAsync();
                 var detalleOrdenes = await _context.DetalleOrdenes.CountAsync();
                 
-                return Results.Ok(new
+                return Ok(new
                 {
                     conexión = connection,
                     Roles = $"Conexión tabla Roles Exitosa, cantidad roles actuales: {roles} ",
@@ -39,7 +39,7 @@ namespace Backend.Data.Controller
                 });
             }catch(Exception err)
             {
-                return Results.Problem($"Error conexión = {err.Message}");
+                return StatusCode(500, new {error = err.Message });
             }
         }
     }

@@ -1,0 +1,30 @@
+host : dpg-d5a3jbje5dus73esq640-a 
+database : ecommerce_vue 
+port : 5432 
+username : ecommerce_vue_user 
+password : hYAUhaUJuK69vQwYigZfr0o1PTVeQwHU 
+internal database URL : postgresql://ecommerce_vue_user:hYAUhaUJuK69vQwYigZfr0o1PTVeQwHU@dpg-d5a3jbje5dus73esq640-a/ecommerce_vue 
+external database URL : postgresql://ecommerce_vue_user:hYAUhaUJuK69vQwYigZfr0o1PTVeQwHU@dpg-d5a3jbje5dus73esq640-a.oregon-postgres.render.com/ecommerce_vue 
+PSQL command : PGPASSWORD=hYAUhaUJuK69vQwYigZfr0o1PTVeQwHU psql -h dpg-d5a3jbje5dus73esq640-a.oregon-postgres.render.com -U ecommerce_vue_user ecommerce_vue
+
+El internal sirve si la API y la DB estan en la misma red interna de Render.
+La external database url sirve para conectarme externamente, por lo que podría conectarme desde mi pc con mi app PgAdmin o psql
+
+script de bash para carga la basededatos con psql :
+PGPASSWORD=hYAUhaUJuK69vQwYigZfr0o1PTVeQwHU \
+psql \
+-h dpg-d5a3jbje5dus73esq640-a.oregon-postgres.render.com \
+-U ecommerce_vue_user \
+-d ecommerce_vue \
+-f database/docker-entry-initdb.d/init.sql
+
+verificacion de éxito:
+psql -h dpg-d5a3jbje5dus73esq640-a.oregon-postgres.render.com \
+-U ecommerce_vue_user ecommerce_vue
+
+luego commandos : 
+- \dt -> resultado -> la lista de las relaciones
+- podemos hacer consultas para verificar el estado de la base de datos : select count(*) from usuarios/productos/etc;
+
+
+

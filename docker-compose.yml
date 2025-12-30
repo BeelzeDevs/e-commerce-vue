@@ -1,0 +1,40 @@
+# debería usarse variables de entorno pero este proyecto es de muestra
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: ecommerce-vue-db
+    environment:
+      POSTGRES_DB: ecommerce_vue
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d 
+      # Debe montarse el directorio completo  y postgres por defecto usa el puerto 5432. POSTGRES_DB no admite - y siempre snakeCase como la db
+    ports:
+      - "5432:5432"
+  
+
+  api:
+    build: ./backend
+    container_name: ecommerce-vue-api
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=ecommerce_vue;Username=postgres;Password=postgres
+      Jwt__Key: MARTIN_LUTHER_KING_ES_LA_CLAVE_SECRETA
+      Jwt__Issuer: ECOMMERCEVUE_BACKEND
+      Jwt__Audience: ECOMMERCEVUE_FRONTEND
+    ports:
+      - "5554:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/Health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  db_data:
