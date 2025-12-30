@@ -44,7 +44,7 @@
           
           <div class="flex flex-nowrap gap-2">
               <div class="inline-block  relative w-full ">
-              <input v-model="UsuarioACrear.password" type="text" autocomplete="new-password" @blur="verificarContraseña"
+              <input v-model="UsuarioACrear.password" type="password" autocomplete="new-password" @blur="verificarContraseña"
               :class="`block w-full ps-9 pe-2 py-2.5 
             bg-slate-700 text-sm rounded-lg border-none outline-none ring-2 focus:ring-blue-600
               shadow-xs placeholder:text-body  ${errorContraseña ? 'ring-red-600' : 'focus:ring-blue-600'}` " />
@@ -54,7 +54,7 @@
             </div>
             
             <div class="inline-block  relative w-full" >
-              <input @blur="verificarContraseña" v-model="repetirContraseña" autocomplete="new-password" type="text" :class=" `block w-full ps-2 pe-2 py-2.5 
+              <input @blur="verificarContraseña" v-model="repetirContraseña" autocomplete="new-password" type="password" :class=" `block w-full ps-2 pe-2 py-2.5 
             bg-slate-700 text-sm rounded-lg border-none outline-none ring-2 focus:ring-blue-600
               shadow-xs placeholder:text-body  ${errorContraseña ? 'ring-red-600' : 'focus:ring-blue-600'}` " />
             </div>
