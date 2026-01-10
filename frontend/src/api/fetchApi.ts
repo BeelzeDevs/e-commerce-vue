@@ -1,6 +1,6 @@
 
 import type {ApiResponse} from '@/dtos/DTOs';
-const BASE_URL = "https://e-commerce-vue.onrender.com/api/";
+const BASE_URL = "http://localhost:5554/api/";
 
 
 async function fetchApi<T>(endpoint: string, options: RequestInit = {}) : Promise<ApiResponse<T>> {
