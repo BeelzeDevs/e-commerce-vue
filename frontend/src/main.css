@@ -78,7 +78,7 @@
         border-radius:100%;
         animation:loadingSimbol 1.5s infinite;
         position:absolute;
-        left: 0;
+        left: -8px;
         right:0;
         top: 0;
         bottom:0;

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex gap-5 mb-12 mt-4 w-full justify-center items-center">
+    <div class="flex gap-5 mb-12 mt-4 flex-wrap w-full justify-center items-center ">
         
         <div class="inline-block relative">
             <input

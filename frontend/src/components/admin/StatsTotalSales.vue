@@ -5,10 +5,7 @@
                 Ventas totales
             </h3>
 
-            <div v-if="loading" class="loading-container">
-                <div class="loading"></div>
-                <div class="loading-text">Cargando métricas</div>
-            </div>
+            <LoaderOne :loading="loading" />
 
             <div v-if="ventasTotales && !loading" class="grid grid-cols-1 md:grid-cols-3 gap-4" >
                 <div class="bg-slate-900 rounded-lg p-4 flex flex-col gap-1">
@@ -42,6 +39,7 @@ import fetchApi from '@/api/fetchApi';
 import { esResultError, type VentasTotalesDTO } from '@/dtos/DTOs';
 import { useAuthStore } from '@/store/authStore';
 import { onMounted, ref } from 'vue';
+import LoaderOne from '@/components/loaderOne.vue';
 
 
 const ventasTotales = ref<VentasTotalesDTO>({

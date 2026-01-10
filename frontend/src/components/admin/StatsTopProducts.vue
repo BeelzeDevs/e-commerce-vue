@@ -20,13 +20,10 @@
                 </div>
             </div>
 
-            <div v-if="loading" class="loading-container">
-                <div class="loading"></div>
-                <div class="loading-text">Cargando productos</div>
-            </div>
+            <LoaderOne :loading="loading" />
 
             <table
-                v-else
+                v-if="!loading"
                 class="min-w-full divide-y divide-slate-700 text-sm"
             >
                 <thead class="bg-slate-900 text-slate-200">
@@ -72,6 +69,7 @@ import fetchApi from '@/api/fetchApi';
 import { esResultError, type TopProductoDTO } from '@/dtos/DTOs';
 import { useAuthStore } from '@/store/authStore';
 import { onMounted, ref, watch } from 'vue';
+import LoaderOne from '@/components/loaderOne.vue';
 
 const auth = useAuthStore();
 const cantidadProd = ref(3);

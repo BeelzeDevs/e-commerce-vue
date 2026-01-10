@@ -2,12 +2,10 @@
   <NavBar />
   <div class="w-full bg-bgContent">
     <section class="max-w-6xl mx-auto p-6 text-white min-h-[90dvh]">
-      <div v-if="loading" class="loading-container">
-        <div class="loading"></div>
-        <div class="loading-text">Cargando producto...</div>
-      </div>
+
+      <LoaderOne :loading="loading" />
   
-      <div v-else-if="producto" class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div v-if="producto && !loading" class="grid grid-cols-1 md:grid-cols-2 gap-10">
         
         <div class="bg-slate-800 rounded-xl p-6 flex justify-center">
           <img
@@ -63,7 +61,7 @@
       </div>
   
       <div
-        v-if="producto"
+        v-if="producto && !loading"
         class="mt-10 bg-slate-800 rounded-xl p-6"
       >
         <h2 class="font-semibold text-lg mb-2">Descripción</h2>
@@ -85,6 +83,7 @@ import NavBar from "@/components/Nav-bar.vue";
 import fetchApi from "@/api/fetchApi";
 import { esResultError, type ProductoReadDTO } from "@/dtos/DTOs";
 import { useCartStore } from "@/store/cartStore";
+import LoaderOne from '@/components/loaderOne.vue';
 
 const route = useRoute();
 const carrito = useCartStore();

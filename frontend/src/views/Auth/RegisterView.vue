@@ -152,7 +152,7 @@ const verificarEmail = () => {
 
 const vaciarEstados = ()=>{
   errorList.value = [];
-  errorContraseña.value = false;
+  errorContraseña.value = false; 
   errorNombre.value = false;
 }
 

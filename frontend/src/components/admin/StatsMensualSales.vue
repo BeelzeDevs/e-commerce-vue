@@ -1,17 +1,15 @@
 <template>
+  
     <section class="p-6 w-full overflow-y-auto overscroll-contain custom-scrollbar">
         <div class="bg-slate-800 rounded-xl p-6 shadow h-[350px]">
             <h3 class="text-lg font-semibold mb-4 text-white font-mono">
               Ventas por mes
             </h3>
-    
-            <div v-if="loading" class="loading-container">
-                <div  class="loading"></div>
-                <div class="loading-text">Cargando gráfico...</div>
-            </div>
+            
+            <LoaderOne :loading="loading" />
     
             <Line
-            v-else
+            v-if="!loading"
             :data="chartData"
             :options="chartOptions"
             />
@@ -27,6 +25,7 @@ import { esResultError, type VentasPorMesDTO } from '@/dtos/DTOs';
 import { useAuthStore } from '@/store/authStore';
 import { computed, onMounted, ref } from 'vue';
 import type { ChartOptions } from "chart.js";
+import LoaderOne from '@/components/loaderOne.vue';
 
 const auth = useAuthStore();
 const errorFetch = ref("");

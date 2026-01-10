@@ -5,13 +5,10 @@
                  Órdenes por estado
              </h3>
      
-             <div v-if="loading" class="loading-container">
-                 <div  class="loading"></div>
-                 <div class="loading-text">Cargando gráfico</div>
-             </div>
+             <LoaderOne :loading="loading" />
      
              <Doughnut
-             v-else
+             v-if="!loading"
              :data="chartData"
              :options="chartOptions"
              />
@@ -26,6 +23,7 @@ import fetchApi from '@/api/fetchApi';
 import { esResultError, type OrdenesPorEstadoDTO } from '@/dtos/DTOs';
 import { useAuthStore } from '@/store/authStore';
 import { onMounted, ref, computed } from 'vue';
+import LoaderOne from '@/components/loaderOne.vue';
 
 const auth = useAuthStore();
 const errorFetch = ref("");

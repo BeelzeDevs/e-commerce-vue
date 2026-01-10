@@ -1,12 +1,6 @@
 <template>
-  <div class="block w-full px-40 pt-32 pb-10 " v-if="loading">
-    <div class="flex justify-center items-center w-full relative">
-      <div class="loading-container ">
-        <div  class="loading"></div>
-        <div class="loading-text text-white">Cargando...</div>
-      </div>
-    </div>
-  </div>
+  
+    <LoaderOne :loading="loading" />
 
     <section class="px-40 relative pt-32 pb-10" v-if="!loading">
 
@@ -49,6 +43,7 @@ import { computed, onMounted, ref } from 'vue'
 import { esResultError, type ResultadoPaginado, type ProductoReadDTO } from '@/dtos/DTOs'
 import fetchApi from '@/api/fetchApi';
 import ProductCarrouselCard from '@/components/user/ProductCarrouselCard.vue';
+import LoaderOne from '@/components/loaderOne.vue';
 
 const productos = ref<ProductoReadDTO[]>([]);
 const loading = ref(true);

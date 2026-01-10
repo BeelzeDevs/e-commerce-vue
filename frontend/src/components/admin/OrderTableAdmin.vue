@@ -1,13 +1,10 @@
 <template>
-
-        <div v-if="loading" class="loading-container">
-            <div  class="loading"></div>
-            <div class="loading-text">Cargando...</div>
-        </div>
         
         <OrderFilterAdmin v-model:filtros="filter" />
 
-        <div class="w-full overflow-x-auto custom-scrollbar">
+        <LoaderOne :loading="loading" />
+
+        <div v-if="!loading" class="w-full overflow-x-auto custom-scrollbar">
             <table class="min-w-full divide-y divide-white text-sm md:text-base">
                 <thead class="bg-blue-800 text-slate-200">
                     <tr>
@@ -69,7 +66,7 @@
                 </tbody>
             </table>
         </div>
-        <PagerComp v-model:page="page" :totalPages="totalPages" />
+        <PagerComp v-if="!loading" v-model:page="page" :totalPages="totalPages" />
 
         <DetailModal v-if="seeDetail" :orden="ordenToDetail" @HandlerDetail="HandlerDetail"/>
         
@@ -89,6 +86,7 @@ import  DetailModal from '@/components/admin/DetailModal.vue';
 import { isNullOrUndef } from 'chart.js/helpers';
 import PagerComp from '@/components/Pagers/PagerComp.vue';
 import OrderFilterAdmin from '../Filters/OrderFilterAdmin.vue';
+import LoaderOne from '../loaderOne.vue';
 
 
 const loading = ref(false);

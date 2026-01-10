@@ -4,12 +4,10 @@
       
       <ProductCreate @toogleReload = "reload = !reload" />
 
-      <div v-if="loading" class="loading-container">
-        <div  class="loading"></div>
-        <div class="loading-text">Cargando...</div>
-      </div>
-
+      
       <ProductFilterAdmin  v-model:filtros="filtros" />
+      
+      <LoaderOne :loading="loading" />
 
       <div v-if="!loading" class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-10 ">
         <div
@@ -22,7 +20,7 @@
         </div>
       </div>
 
-      <div >
+      <div v-if="!loading">
         <PagerComp v-model:page="page" :totalPages="totalPages" />
       </div>
 
@@ -38,6 +36,7 @@ import fetchApi from '@/api/fetchApi';
 import { isNullOrUndef } from 'chart.js/helpers';
 import PagerComp from '@/components/Pagers/PagerComp.vue';
 import ProductFilterAdmin from '@/components/Filters/ProductFilterAdmin.vue';
+import LoaderOne from '../loaderOne.vue';
 
 const productos = ref<ProductoReadDTO[]>([]);
 const loading = ref(true);

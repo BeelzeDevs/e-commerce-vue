@@ -39,7 +39,7 @@
                         <button @click="auth.logout()" class="bg-red-600 px-3 py-2 rounded hover:bg-red-500 w-full">
                                 Logout 
                         </button>
-                        <button @click="router.push('crear-admin')" class="bg-blue-600 px-3 py-2 rounded hover:bg-blue-500 w-full">
+                        <button @click="router.push('/crear-admin')" class="bg-blue-600 px-3 py-2 rounded hover:bg-blue-500 w-full">
                                 Crear Admin 
                         </button>
             </div>
@@ -69,11 +69,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-
-const redirecProd = () => router.push("/admin/productos");
-const redirectOrd = () => router.push("/admin/ordenes");
-const redirectUser = () => router.push("/admin/usuarios");
-const redirectStats = () => router.push("/admin/stats");
 
 const auth = useAuthStore();
 

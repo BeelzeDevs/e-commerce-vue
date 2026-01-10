@@ -1,28 +1,24 @@
 <template>
   <div class="p-6 bg-bgContent min-h-[90dvh]">
       
-      <div class="flex justify-center items-center">
-          <div v-if="loading" class="loading-container mx-10 my-10">
-            <div  class="loading"></div>
-            <div class="loading-text text-white">Cargando...</div>
-          </div>
+    
+    <ProductFilters v-model:filtros = "filtros" />
+    
+    <LoaderOne :loading = "loading" />
+    
+    <div v-if="!loading" class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-10">
+      <div
+          v-for="p in productos"
+          :key="p.id"
+          class="border p-4 rounded-xl shadow hover:shadow-lg transition bg-slate-900 hover:bg-blue-900/30"
+      >
+        <ProductCard :producto="p"/>
+          
       </div>
-      
-      <ProductFilters v-model:filtros = "filtros" />
-
-      <div v-if="!loading" class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-10">
-        <div
-            v-for="p in productos"
-            :key="p.id"
-            class="border p-4 rounded-xl shadow hover:shadow-lg transition bg-slate-900 hover:bg-blue-900/30"
-        >
-          <ProductCard :producto="p"/>
-            
-        </div>
-      </div>
-      <div v-if="!loading" class="flex">
-        <PagerComp v-model:page="Page" :totalPages="totalPages" />
-      </div>
+    </div>
+    <div v-if="!loading" class="flex">
+      <PagerComp v-model:page="Page" :totalPages="totalPages" />
+    </div>
 
   </div>
 </template>
@@ -34,6 +30,7 @@ import ProductCard from '@/components/user/ProductCard.vue';
 import fetchApi from '@/api/fetchApi';
 import PagerComp from '@/components/Pagers/PagerComp.vue';
 import ProductFilters from '@/components/Filters/ProductFilters.vue';
+import LoaderOne from '@/components/loaderOne.vue';
 
 
 const productos = ref<ProductoReadDTO[]>([]);

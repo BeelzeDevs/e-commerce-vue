@@ -1,15 +1,11 @@
 <template>
     
-    <div v-if="loading" class="loading-container">
-        <div  class="loading"></div>
-        <div class="loading-text text-white">Cargando...</div>
-    </div>
-
     
-
     <UserFilterAdmin v-model:filtros="filter"/>
-
-    <div class="w-full overscroll-x-auto custom-scrollbar">
+    
+    <LoaderOne :loading="loading" />
+    
+    <div v-if="!loading" class="w-full overscroll-x-auto custom-scrollbar">
         <table class="min-w-full divide-y divide-white text-sm md:text-base">
             <thead class="bg-blue-800 text-slate-200">
                 <tr >
@@ -46,7 +42,7 @@
         </table>
     </div>
     
-    <PagerComp v-model:page="page" :totalPages="totalPages" />
+    <PagerComp v-if="!loading" v-model:page="page" :totalPages="totalPages" />
     
     <UserModal v-if="modal" @toogleModal = "handleModal" :usuario = "userToDetail"/>
 
@@ -62,6 +58,7 @@ import UserModal from '@/components/admin/UserModal.vue';
 import { isNullOrUndef } from 'chart.js/helpers';
 import PagerComp from '@/components/Pagers/PagerComp.vue';
 import UserFilterAdmin from '@/components/Filters/UserFilterAdmin.vue';
+import LoaderOne from '@/components/loaderOne.vue';
 
 
 const loading = ref(true);

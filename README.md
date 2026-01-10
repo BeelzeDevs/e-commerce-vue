@@ -25,27 +25,12 @@
 ## - Chart.js: v4.5.1 y Vue-chartjs v5.3.3
 
 ## Work List
-- Filtrar por estado / fecha / usuario nombre
-- Paginación tanto frontend como backend con page por parametro
-- Bloquear / desactivar usuario 
+- Paginación tanto frontend como backend con page por parametro  ✔
 - Cambiar estado ordenes (pagado, enviado, cancelado) ✔
 - Cantidad de órdenes o total gastado  ✔
 - AdminStats -> Ventas totales / Ventas por mes / Ordenes por estado / Top productos / Usuarios nuevos por mes ✔
-- /api/stats/summary /api/stats/orders-per-month /api/stats/top-products ✔
-
-- Homeview
-- ProductDetailView
-- CartView
-- UserPanelView
-- CheckoutView
-
-- ProductList & Card
-- ProductFilters
-- FeaturedProducts
-- CartItem
-
-- CartStore
-- ProductStore
+- Bloquear / desactivar usuario 
+- User panel (see orders)
 
 # Home Modules : User
 - Featured products
@@ -54,12 +39,12 @@
 - Buy Cart
 - Checkout
 - Login / Register
-- User panel (see orders)
+- User panel (see orders) ❌ (on progress)
 
 
 
 # Home Modules : Admin
-- Login Admin
+- Login Admin / Register Admin
 - Product Managment
 - User Managment
 - Order Managment
@@ -71,4 +56,5 @@
 - JWT Authentication
 - Rol: Client, Admin
 - Data transfer objects
+- Paged Results
  
