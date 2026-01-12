@@ -1,7 +1,8 @@
 # 🛒 E-Commerce Administrative System
 
-Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autenticación por roles, panel de administración, estadísticas y experiencia completa de compra.
+* Administrative and user system for a **modern E-Commerce**, with role-based authentication, administration panel, statistics and complete shopping experience.
 
+* Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autenticación por roles, panel de administración, estadísticas y experiencia completa de compra.
 ---
 
 ## 🔐 Test credentials / Credenciales de prueba
