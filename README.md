@@ -4,21 +4,21 @@ Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autent
 
 ---
 
-## 🔐 Credenciales de prueba
+## 🔐 Test credentials / Credenciales de prueba
 
-### Administrador
+### Admin / Administrador
 
 * **Email:** [ignacio@admin.com](mailto:ignacio@admin.com)
 * **Password:** admin123
 
-### Cliente
+### Client / Cliente
 
 * **Email:** [cliente@cliente.com](mailto:cliente@cliente.com)
 * **Password:** cliente123
 
 ---
 
-## 🧱 Stack Tecnológico
+## 🧱 Technology Stack / Stack Tecnológico
 
 ### Backend
 
@@ -43,7 +43,7 @@ Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autent
 
 ## 📋 Work List / Progreso
 
-### Funcionalidades generales
+### General functionalities / Funcionalidades generales
 
 * ✅ Paginación frontend y backend (page por parámetro)
 * ✅ Cambio de estado de órdenes (Pagado / Enviado / Cancelado)
@@ -57,14 +57,14 @@ Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autent
 * ✅ Top productos
 * ✅ Usuarios nuevos por mes
 
-### Usuarios
+### Client / Usuarios
 
 * ⏳ Bloquear / desactivar usuario
 * ⏳ Panel de usuario (ver órdenes)
 
 ---
 
-## 🏠 Módulos Home – Usuario
+## 🏠 Home Modules – User / Módulos Home – Usuario
 
 -  ❌ (on progress)
 * ⭐ Featured products / Productos destacados
@@ -77,7 +77,7 @@ Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autent
 
 ---
 
-## 🛠️ Módulos Home – Administrador
+## 🛠️ Home Modules – Admin / Módulos Home – Administrador
 
 * 🔐 Login Admin / Register Admin / Registro de administrador
 * 📦 Product Managment / Gestión de productos
@@ -87,7 +87,7 @@ Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autent
 
 ---
 
-## ⚙️ Backend – Funcionalidades
+## ⚙️ Backend – Functionalities / Funcionalidades
 
 * CRUD completo:
 
@@ -97,7 +97,7 @@ Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autent
   * Orders / Órdenes
   * Order Details (products) / Detalles de orden (productos)
 
-* 📊 Estadísticas:
+* 📊 Stats / Estadísticas:
 
   * Total Sales / Ventas totales ,, , , 
   * Stats by Order state / Ventas por estado de orden
@@ -107,7 +107,7 @@ Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autent
 
 * 🔐 JWT Authentication / Autenticación JWT
 
-* 🧑‍💼 Roles:
+* 🧑‍💼 Rols / Roles:
 
   * Client / Cliente
   * Admin / Admin
@@ -118,7 +118,7 @@ Sistema administrativo y de usuario para un **E‑Commerce moderno**, con autent
 
 ---
 
-## 🚀 Estado del proyecto
+## 🚀 Project status / Estado del proyecto
 
 Proyecto **funcional**, con foco en buenas prácticas de arquitectura, escalabilidad y experiencia de usuario.
 
